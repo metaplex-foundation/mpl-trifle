@@ -1,0 +1,1130 @@
+{
+  "version": "0.3.3",
+  "name": "mpl_trifle",
+  "instructions": [
+    {
+      "name": "CreateEscrowConstraintModelAccount",
+      "accounts": [
+        {
+          "name": "escrowConstraintModel",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Constraint model account"
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "desc": "Wallet paying for the transaction and new account, will be set as the creator of the constraint model"
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Update authority of the constraint model"
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "System program"
+        }
+      ],
+      "args": [
+        {
+          "name": "createEscrowConstraintModelAccountArgs",
+          "type": {
+            "defined": "CreateEscrowConstraintModelAccountArgs"
+          }
+        }
+      ],
+      "discriminant": {
+        "type": "u8",
+        "value": 0
+      }
+    },
+    {
+      "name": "CreateTrifleAccount",
+      "accounts": [
+        {
+          "name": "escrow",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Escrow account"
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Metadata account"
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Mint account"
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Token account (base token)"
+        },
+        {
+          "name": "edition",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Edition account"
+        },
+        {
+          "name": "trifleAccount",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Trifle account"
+        },
+        {
+          "name": "trifleAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "desc": "Trifle Authority - the account that can sign transactions for the trifle account"
+        },
+        {
+          "name": "constraintModel",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Escrow constraint model"
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "desc": "Wallet paying for the transaction"
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Token Metadata program"
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "System program"
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Instructions sysvar account"
+        }
+      ],
+      "args": [],
+      "discriminant": {
+        "type": "u8",
+        "value": 1
+      }
+    },
+    {
+      "name": "TransferIn",
+      "accounts": [
+        {
+          "name": "trifle",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The trifle account to use"
+        },
+        {
+          "name": "trifleAuthority",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Trifle Authority - the account that can sign transactions for the trifle account"
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "desc": "Wallet paying for the transaction"
+        },
+        {
+          "name": "constraintModel",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The escrow constraint model of the Trifle account"
+        },
+        {
+          "name": "escrow",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "The escrow account of the Trifle account"
+        },
+        {
+          "name": "escrowMint",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "The escrow account's base token mint",
+          "optional": true
+        },
+        {
+          "name": "escrowToken",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The token account of the escrow account's base token",
+          "optional": true
+        },
+        {
+          "name": "escrowEdition",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The freeze authority of the escrow account's base token mint",
+          "optional": true
+        },
+        {
+          "name": "attributeMint",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The mint of the attribute token",
+          "optional": true
+        },
+        {
+          "name": "attributeSrcToken",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The token account that the attribute token is being transferred from",
+          "optional": true
+        },
+        {
+          "name": "attributeDstToken",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The token account that the attribute token is being transferred to (pda of the escrow account)",
+          "optional": true
+        },
+        {
+          "name": "attributeMetadata",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The metadata account of the attribute token",
+          "optional": true
+        },
+        {
+          "name": "attributeEdition",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The edition account of the attribute token",
+          "optional": true
+        },
+        {
+          "name": "attributeCollectionMetadata",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The collection metadata account of the attribute token",
+          "optional": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "System program"
+        },
+        {
+          "name": "splToken",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Token program"
+        },
+        {
+          "name": "splAssociatedTokenAccount",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Associated token account program"
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Token Metadata program"
+        }
+      ],
+      "args": [
+        {
+          "name": "transferInArgs",
+          "type": {
+            "defined": "TransferInArgs"
+          }
+        }
+      ],
+      "defaultOptionalAccounts": true,
+      "discriminant": {
+        "type": "u8",
+        "value": 2
+      }
+    },
+    {
+      "name": "TransferOut",
+      "accounts": [
+        {
+          "name": "trifleAccount",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The trifle account to use"
+        },
+        {
+          "name": "constraintModel",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The constraint model to check against"
+        },
+        {
+          "name": "escrowAccount",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "The escrow account attached to the NFT"
+        },
+        {
+          "name": "escrowTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The token account holding the NFT the escrow is attached to"
+        },
+        {
+          "name": "escrowMint",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The mint of the NFT the escrow is attached to"
+        },
+        {
+          "name": "escrowMetadata",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The metadata account for the escrow mint"
+        },
+        {
+          "name": "escrowEdition",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The edition of the NFT the escrow is attached to",
+          "optional": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "desc": "Wallet paying for the transaction"
+        },
+        {
+          "name": "trifleAuthority",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Trifle Authority - the account that can sign transactions for the trifle account"
+        },
+        {
+          "name": "attributeMint",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "The mint of the attribute"
+        },
+        {
+          "name": "attributeSrcTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The token account the attribute is being transferred from"
+        },
+        {
+          "name": "attributeDstTokenAccount",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "The token account the attribute is being transferred to"
+        },
+        {
+          "name": "attributeMetadata",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "The metadata of the attribute"
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "The system program"
+        },
+        {
+          "name": "splAssociatedTokenAccount",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "The associated token account program"
+        },
+        {
+          "name": "splToken",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "The spl token program"
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "The token metadata program"
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Instructions sysvar account"
+        }
+      ],
+      "args": [
+        {
+          "name": "transferOutArgs",
+          "type": {
+            "defined": "TransferOutArgs"
+          }
+        }
+      ],
+      "defaultOptionalAccounts": true,
+      "discriminant": {
+        "type": "u8",
+        "value": 3
+      }
+    },
+    {
+      "name": "AddNoneConstraintToEscrowConstraintModel",
+      "accounts": [
+        {
+          "name": "constraintModel",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Constraint model account"
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "desc": "Wallet paying for the transaction and new account, will be set as the creator of the constraint model"
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "desc": "Update authority of the constraint model"
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "System program"
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Instructions sysvar account"
+        }
+      ],
+      "args": [
+        {
+          "name": "addNoneConstraintToEscrowConstraintModelArgs",
+          "type": {
+            "defined": "AddNoneConstraintToEscrowConstraintModelArgs"
+          }
+        }
+      ],
+      "discriminant": {
+        "type": "u8",
+        "value": 4
+      }
+    },
+    {
+      "name": "AddCollectionConstraintToEscrowConstraintModel",
+      "accounts": [
+        {
+          "name": "constraintModel",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Constraint model account"
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "desc": "Wallet paying for the transaction and new account, will be set as the creator of the constraint model"
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "desc": "Update authority of the constraint model"
+        },
+        {
+          "name": "collectionMint",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Collection mint account"
+        },
+        {
+          "name": "collectionMintMetadata",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Collection mint metadata account"
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "System program"
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Instructions sysvar account"
+        }
+      ],
+      "args": [
+        {
+          "name": "addCollectionConstraintToEscrowConstraintModelArgs",
+          "type": {
+            "defined": "AddCollectionConstraintToEscrowConstraintModelArgs"
+          }
+        }
+      ],
+      "discriminant": {
+        "type": "u8",
+        "value": 5
+      }
+    },
+    {
+      "name": "AddTokensConstraintToEscrowConstraintModel",
+      "accounts": [
+        {
+          "name": "constraintModel",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Constraint model account"
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "desc": "Wallet paying for the transaction and new account, will be set as the creator of the constraint model"
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "desc": "Update authority of the constraint model"
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "System program"
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Instructions sysvar account"
+        }
+      ],
+      "args": [
+        {
+          "name": "addTokensConstraintToEscrowConstraintModelArgs",
+          "type": {
+            "defined": "AddTokensConstraintToEscrowConstraintModelArgs"
+          }
+        }
+      ],
+      "discriminant": {
+        "type": "u8",
+        "value": 6
+      }
+    },
+    {
+      "name": "RemoveConstraintFromEscrowConstraintModel",
+      "accounts": [
+        {
+          "name": "constraintModel",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Constraint model account"
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "desc": "Wallet paying for the transaction"
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "desc": "Update authority of the constraint model"
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "System program"
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Instructions sysvar account"
+        }
+      ],
+      "args": [
+        {
+          "name": "removeConstraintFromEscrowConstraintModelArgs",
+          "type": {
+            "defined": "RemoveConstraintFromEscrowConstraintModelArgs"
+          }
+        }
+      ],
+      "defaultOptionalAccounts": true,
+      "discriminant": {
+        "type": "u8",
+        "value": 7
+      }
+    },
+    {
+      "name": "SetRoyalties",
+      "accounts": [
+        {
+          "name": "constraintModel",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Constraint model account"
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "desc": "Wallet paying for the transaction and new account, will be set as the creator of the constraint model"
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "desc": "Update authority of the constraint model"
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "System program"
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Instructions sysvar account"
+        }
+      ],
+      "args": [
+        {
+          "name": "setRoyaltiesArgs",
+          "type": {
+            "defined": "SetRoyaltiesArgs"
+          }
+        }
+      ],
+      "discriminant": {
+        "type": "u8",
+        "value": 8
+      }
+    },
+    {
+      "name": "WithdrawRoyalties",
+      "accounts": [
+        {
+          "name": "constraintModel",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Constraint model account"
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "desc": "Wallet paying for the transaction and new account, will be set as the creator of the constraint model"
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "desc": "Update authority of the constraint model"
+        },
+        {
+          "name": "destination",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "The account to withdraw the royalties to"
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "System program"
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Instructions sysvar account"
+        }
+      ],
+      "args": [
+        {
+          "name": "withdrawRoyaltiesArgs",
+          "type": {
+            "defined": "WithdrawRoyaltiesArgs"
+          }
+        }
+      ],
+      "discriminant": {
+        "type": "u8",
+        "value": 9
+      }
+    }
+  ],
+  "accounts": [
+    {
+      "name": "EscrowConstraintModel",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "type": {
+              "defined": "Key"
+            }
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "constraints",
+            "type": {
+              "hashMap": [
+                "string",
+                {
+                  "defined": "EscrowConstraint"
+                }
+              ]
+            }
+          },
+          {
+            "name": "updateAuthority",
+            "type": "publicKey"
+          },
+          {
+            "name": "count",
+            "type": "u64"
+          },
+          {
+            "name": "schemaUri",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "royalties",
+            "type": {
+              "hashMap": [
+                {
+                  "defined": "RoyaltyInstruction"
+                },
+                "u64"
+              ]
+            }
+          },
+          {
+            "name": "royaltyBalance",
+            "type": "u64"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AddCollectionConstraintToEscrowConstraintModelArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "constraintName",
+            "type": "string"
+          },
+          {
+            "name": "tokenLimit",
+            "type": "u64"
+          },
+          {
+            "name": "transferEffects",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AddNoneConstraintToEscrowConstraintModelArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "constraintName",
+            "type": "string"
+          },
+          {
+            "name": "tokenLimit",
+            "type": "u64"
+          },
+          {
+            "name": "transferEffects",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AddTokensConstraintToEscrowConstraintModelArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "constraintName",
+            "type": "string"
+          },
+          {
+            "name": "tokens",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "tokenLimit",
+            "type": "u64"
+          },
+          {
+            "name": "transferEffects",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateEscrowConstraintModelAccountArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "schemaUri",
+            "type": {
+              "option": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "EscrowConstraint",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tokenLimit",
+            "type": "u64"
+          },
+          {
+            "name": "constraintType",
+            "type": {
+              "defined": "EscrowConstraintType"
+            }
+          },
+          {
+            "name": "transferEffects",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RemoveConstraintFromEscrowConstraintModelArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "constraintName",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SetRoyaltiesArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "royalties",
+            "type": {
+              "vec": {
+                "tuple": [
+                  {
+                    "defined": "RoyaltyInstruction"
+                  },
+                  "u64"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransferInArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "slot",
+            "type": "string"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransferOutArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "slot",
+            "type": "string"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WithdrawRoyaltiesArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EscrowConstraintType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "None"
+          },
+          {
+            "name": "Collection",
+            "fields": [
+              "publicKey"
+            ]
+          },
+          {
+            "name": "Tokens",
+            "fields": [
+              {
+                "hashSet": "publicKey"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoyaltyInstruction",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "CreateModel"
+          },
+          {
+            "name": "CreateTrifle"
+          },
+          {
+            "name": "TransferIn"
+          },
+          {
+            "name": "TransferOut"
+          },
+          {
+            "name": "AddConstraint"
+          },
+          {
+            "name": "RemoveConstraint"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Key",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "EscrowConstraintModel"
+          },
+          {
+            "name": "Trifle"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 0,
+      "name": "NumericalOverflow",
+      "msg": "Numerical Overflow"
+    },
+    {
+      "code": 1,
+      "name": "InvalidAccount",
+      "msg": "Invalid account"
+    },
+    {
+      "code": 2,
+      "name": "InvalidEscrowConstraintModel",
+      "msg": "Invalid Escrow Constraint Model"
+    },
+    {
+      "code": 3,
+      "name": "InvalidEscrowConstraint",
+      "msg": "Invalid Escrow Constraint"
+    },
+    {
+      "code": 4,
+      "name": "EscrowConstraintViolation",
+      "msg": "Escrow Constraint Violation"
+    },
+    {
+      "code": 5,
+      "name": "InvalidUpdateAuthority",
+      "msg": "Invalid Update Authority"
+    },
+    {
+      "code": 6,
+      "name": "FailedToCreatePubkey",
+      "msg": "Failed to create pubkey"
+    },
+    {
+      "code": 7,
+      "name": "DataTypeMismatch",
+      "msg": "Data type mismatch"
+    },
+    {
+      "code": 8,
+      "name": "ConstraintAlreadyExists",
+      "msg": "Constraint already exists"
+    },
+    {
+      "code": 9,
+      "name": "TokenLimitExceeded",
+      "msg": "Token Limit Exceeded"
+    },
+    {
+      "code": 10,
+      "name": "FailedToFindTokenAmount",
+      "msg": "Failed to find Token Amount"
+    },
+    {
+      "code": 11,
+      "name": "InvalidCollectionMetadata",
+      "msg": "Invalid Collection Metadata"
+    },
+    {
+      "code": 12,
+      "name": "TransferEffectConflict",
+      "msg": "Provided Transfer Effects are not compatible"
+    },
+    {
+      "code": 13,
+      "name": "FreezeAuthorityNotSet",
+      "msg": "Freeze Authority Not Set"
+    },
+    {
+      "code": 14,
+      "name": "CannotBurnPrintEdition",
+      "msg": "Cannot burn Print Edition"
+    },
+    {
+      "code": 15,
+      "name": "ConstraintKeyNotFound",
+      "msg": "Constraint Key Not Found"
+    },
+    {
+      "code": 16,
+      "name": "FailedToSerialize",
+      "msg": "Failed to serialize"
+    },
+    {
+      "code": 17,
+      "name": "FailedToBorrowAccountData",
+      "msg": "Failed to borrow account data"
+    },
+    {
+      "code": 18,
+      "name": "InvalidCollection",
+      "msg": "Failed to deserialize collection"
+    },
+    {
+      "code": 19,
+      "name": "MustBeHolder",
+      "msg": "Only the holder is allowed to perform this action"
+    }
+  ],
+  "metadata": {
+    "origin": "shank",
+    "address": "trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX",
+    "binaryVersion": "0.0.10",
+    "libVersion": "0.0.10"
+  }
+}
