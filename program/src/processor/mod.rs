@@ -58,5 +58,9 @@ pub fn process_instruction(
             msg!("Instruction: Withdraw Royalties");
             withdraw_royalties(program_id, accounts, args)
         }
+        TrifleInstruction::AddFirstCreatorConstraintToEscrowConstraintModel(args) => {
+            msg!("Instruction: Add First Creator Constraint To Escrow Constraint Model");
+            add_first_creator_constraint_to_escrow_constraint_model(program_id, accounts, args)
+        }
     }
 }

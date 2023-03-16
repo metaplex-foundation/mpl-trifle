@@ -121,6 +121,22 @@ pub fn transfer_in(
             .key;
 
         constraint_model.validate(&collection_key, &args.slot)?;
+    } else if let EscrowConstraintType::FirstCreator(_) = constraint.constraint_type {
+        let asset_data = attribute_metadata.clone().into_asset_data();
+        let creators_option = asset_data.creators;
+        let creators = match creators_option {
+            Some(x) => x,
+            None => return Err(TrifleError::InvalidFirstCreator.into())
+        };
+        let first_creator_option = creators.into_iter().nth(0);
+        let first_creator = match first_creator_option {
+            Some(x) => x,
+            None => return Err(TrifleError::InvalidFirstCreator.into())
+        };
+        if first_creator.verified != true {
+            return Err(TrifleError::InvalidAccount.into());
+        }
+        constraint_model.validate(&first_creator.address, &args.slot)?;
     } else {
         constraint_model.validate(attribute_mint_info.key, &args.slot)?;
     }

@@ -1,9 +1,11 @@
 mod add_collection_constraint;
+mod add_first_creator_constraint;
 mod add_none_constraint;
 mod add_tokens_constraint;
 mod create;
 mod remove_constraint;
 pub use add_collection_constraint::*;
+pub use add_first_creator_constraint::*;
 pub use add_none_constraint::*;
 pub use add_tokens_constraint::*;
 use borsh::{BorshDeserialize, BorshSerialize};

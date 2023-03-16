@@ -78,6 +78,7 @@ pub enum EscrowConstraintType {
     None,
     Collection(Pubkey),
     Tokens(HashSet<Pubkey>),
+    FirstCreator(Pubkey),
 }
 
 impl EscrowConstraintType {
@@ -101,6 +102,13 @@ impl EscrowConstraintType {
             }
             EscrowConstraintType::Tokens(tokens) => {
                 if tokens.contains(mint) {
+                    Ok(())
+                } else {
+                    Err(TrifleError::EscrowConstraintViolation)
+                }
+            }
+            EscrowConstraintType::FirstCreator(first_creator) => {
+                if first_creator == mint {
                     Ok(())
                 } else {
                     Err(TrifleError::EscrowConstraintViolation)

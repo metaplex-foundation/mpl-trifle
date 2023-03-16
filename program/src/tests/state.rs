@@ -97,6 +97,7 @@ mod escrow {
         let keypair_1 = Keypair::new();
         let keypair_2 = Keypair::new();
         let keypair_3 = Keypair::new();
+        let keypair_4 = Keypair::new();
 
         let ec_none = EscrowConstraint {
             constraint_type: EscrowConstraintType::None,
@@ -125,11 +126,18 @@ mod escrow {
             transfer_effects: TransferEffects::default().into(),
         };
 
+        let ec_first_creator = EscrowConstraint {
+            constraint_type: EscrowConstraintType::FirstCreator(keypair_4.pubkey()),
+            token_limit: 1,
+            transfer_effects: TransferEffects::default().into(),
+        };
+
         let mut constraints = HashMap::new();
         constraints.insert("none".to_string(), ec_none.clone());
         constraints.insert("none_unlimited".to_string(), ec_none_unlimited.clone());
         constraints.insert("collection".to_string(), ec_collection);
         constraints.insert("tokens".to_string(), ec_tokens.clone());
+        constraints.insert("first_creator".to_string(), ec_first_creator);
 
         let escrow_constraints_model = EscrowConstraintModel {
             key: Key::EscrowConstraintModel,
@@ -167,6 +175,10 @@ mod escrow {
         escrow_constraints_model
             .validate(&keypair_1.pubkey(), &"tokens".to_string())
             .expect_err("Tokens constraint failed");
+
+        escrow_constraints_model
+            .validate(&keypair_3.pubkey(), &"first_creator".to_string())
+            .expect_err("First creator constraint failed");
 
         let mut trifle = Trifle {
             ..Default::default()
