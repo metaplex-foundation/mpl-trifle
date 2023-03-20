@@ -12,6 +12,7 @@ use mpl_token_metadata::state::{Collection, CollectionDetails, EscrowAuthority};
 use mpl_trifle::{
     instruction::{
         add_collection_constraint_to_escrow_constraint_model,
+        add_first_creator_constraint_to_escrow_constraint_model,
         add_none_constraint_to_escrow_constraint_model,
         add_tokens_constraint_to_escrow_constraint_model, create_escrow_constraint_model_account,
         create_trifle_account,
@@ -284,6 +285,17 @@ pub async fn create_escrow_constraint_model(
         "tokens".to_string(),
         0,
         tokens,
+        transfer_effects.clone().into(),
+    );
+
+    let add_creator_constraint_ix = add_first_creator_constraint_to_escrow_constraint_model(
+        &mpl_trifle::id(),
+        &escrow_constraint_model_addr,
+        &context.payer.pubkey(),
+        &context.payer.pubkey(),
+        &context.payer.pubkey(),
+        "creator".to_string(),
+        0,
         transfer_effects.into(),
     );
 
@@ -293,6 +305,7 @@ pub async fn create_escrow_constraint_model(
             add_none_constraint_ix,
             add_tokens_constraint_ix,
             add_collection_constraint_ix,
+            add_creator_constraint_ix,
         ],
         Some(&context.payer.pubkey()),
         &[&context.payer],

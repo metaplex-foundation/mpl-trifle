@@ -87,6 +87,10 @@ pub enum TrifleError {
     /// 19 - Only the holder is allowed to perform this action
     #[error("Only the holder is allowed to perform this action")]
     MustBeHolder,
+
+    /// 20 - Failed to deserialize the first creator
+    #[error("Failed to deserialize the first creator")]
+    InvalidFirstCreator,
 }
 
 impl From<TrifleError> for ProgramError {

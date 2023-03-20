@@ -21,6 +21,7 @@ export type EscrowConstraintTypeRecord = {
   None: void /* scalar variant */
   Collection: { fields: [web3.PublicKey] }
   Tokens: { fields: [Set<web3.PublicKey>] }
+  FirstCreator: { fields: [web3.PublicKey] }
 }
 
 /**
@@ -47,6 +48,10 @@ export const isEscrowConstraintTypeCollection = (
 export const isEscrowConstraintTypeTokens = (
   x: EscrowConstraintType
 ): x is EscrowConstraintType & { __kind: 'Tokens' } => x.__kind === 'Tokens'
+export const isEscrowConstraintTypeFirstCreator = (
+  x: EscrowConstraintType
+): x is EscrowConstraintType & { __kind: 'FirstCreator' } =>
+  x.__kind === 'FirstCreator'
 
 /**
  * @category userTypes
@@ -67,6 +72,13 @@ export const escrowConstraintTypeBeet =
       new beet.FixableBeetArgsStruct<EscrowConstraintTypeRecord['Tokens']>(
         [['fields', beet.tuple([beet.set(beetSolana.publicKey)])]],
         'EscrowConstraintTypeRecord["Tokens"]'
+      ),
+    ],
+    [
+      'FirstCreator',
+      new beet.BeetArgsStruct<EscrowConstraintTypeRecord['FirstCreator']>(
+        [['fields', beet.fixedSizeTuple([beetSolana.publicKey])]],
+        'EscrowConstraintTypeRecord["FirstCreator"]'
       ),
     ],
   ]) as beet.FixableBeet<EscrowConstraintType>

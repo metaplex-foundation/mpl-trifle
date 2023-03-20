@@ -1,4 +1,5 @@
 export * from './AddCollectionConstraintToEscrowConstraintModelArgs'
+export * from './AddFirstCreatorConstraintToEscrowConstraintModelArgs'
 export * from './AddNoneConstraintToEscrowConstraintModelArgs'
 export * from './AddTokensConstraintToEscrowConstraintModelArgs'
 export * from './CreateEscrowConstraintModelAccountArgs'

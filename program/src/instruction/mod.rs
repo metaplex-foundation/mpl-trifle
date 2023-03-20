@@ -124,4 +124,12 @@ pub enum TrifleInstruction {
     #[account(4, name = "system_program", desc = "System program")]
     #[account(5, name="sysvar_instructions", desc="Instructions sysvar account")]
     WithdrawRoyalties(WithdrawRoyaltiesArgs),
+
+    #[account(0, writable, name = "constraint_model", desc = "Constraint model account")]
+    #[account(1, writable, signer, name = "payer", desc = "Wallet paying for the transaction and new account, will be set as the creator of the constraint model")]
+    #[account(2, signer, name = "update_authority", desc = "Update authority of the constraint model")]
+    #[account(3, name = "first_creator", desc = "First creator account")]
+    #[account(4, name = "system_program", desc = "System program")]
+    #[account(5, name="sysvar_instructions", desc="Instructions sysvar account")]
+    AddFirstCreatorConstraintToEscrowConstraintModel(AddFirstCreatorConstraintToEscrowConstraintModelArgs),
 }
