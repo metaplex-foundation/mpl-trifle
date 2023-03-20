@@ -1,5 +1,5 @@
 {
-  "version": "0.3.3",
+  "version": "0.4.0",
   "name": "mpl_trifle",
   "instructions": [
     {
@@ -687,6 +687,59 @@
         "type": "u8",
         "value": 9
       }
+    },
+    {
+      "name": "AddFirstCreatorConstraintToEscrowConstraintModel",
+      "accounts": [
+        {
+          "name": "constraintModel",
+          "isMut": true,
+          "isSigner": false,
+          "desc": "Constraint model account"
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true,
+          "desc": "Wallet paying for the transaction and new account, will be set as the creator of the constraint model"
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": true,
+          "desc": "Update authority of the constraint model"
+        },
+        {
+          "name": "firstCreator",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "First creator account"
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "System program"
+        },
+        {
+          "name": "sysvarInstructions",
+          "isMut": false,
+          "isSigner": false,
+          "desc": "Instructions sysvar account"
+        }
+      ],
+      "args": [
+        {
+          "name": "addFirstCreatorConstraintToEscrowConstraintModelArgs",
+          "type": {
+            "defined": "AddFirstCreatorConstraintToEscrowConstraintModelArgs"
+          }
+        }
+      ],
+      "discriminant": {
+        "type": "u8",
+        "value": 10
+      }
     }
   ],
   "accounts": [
@@ -765,6 +818,26 @@
   "types": [
     {
       "name": "AddCollectionConstraintToEscrowConstraintModelArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "constraintName",
+            "type": "string"
+          },
+          {
+            "name": "tokenLimit",
+            "type": "u64"
+          },
+          {
+            "name": "transferEffects",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AddFirstCreatorConstraintToEscrowConstraintModelArgs",
       "type": {
         "kind": "struct",
         "fields": [
@@ -971,6 +1044,12 @@
                 "hashSet": "publicKey"
               }
             ]
+          },
+          {
+            "name": "FirstCreator",
+            "fields": [
+              "publicKey"
+            ]
           }
         ]
       }
@@ -1119,6 +1198,11 @@
       "code": 19,
       "name": "MustBeHolder",
       "msg": "Only the holder is allowed to perform this action"
+    },
+    {
+      "code": 20,
+      "name": "InvalidFirstCreator",
+      "msg": "Failed to deserialize the first creator"
     }
   ],
   "metadata": {

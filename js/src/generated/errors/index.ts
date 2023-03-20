@@ -469,6 +469,29 @@ createErrorFromCodeLookup.set(0x13, () => new MustBeHolderError())
 createErrorFromNameLookup.set('MustBeHolder', () => new MustBeHolderError())
 
 /**
+ * InvalidFirstCreator: 'Failed to deserialize the first creator'
+ *
+ * @category Errors
+ * @category generated
+ */
+export class InvalidFirstCreatorError extends Error {
+  readonly code: number = 0x14
+  readonly name: string = 'InvalidFirstCreator'
+  constructor() {
+    super('Failed to deserialize the first creator')
+    if (typeof Error.captureStackTrace === 'function') {
+      Error.captureStackTrace(this, InvalidFirstCreatorError)
+    }
+  }
+}
+
+createErrorFromCodeLookup.set(0x14, () => new InvalidFirstCreatorError())
+createErrorFromNameLookup.set(
+  'InvalidFirstCreator',
+  () => new InvalidFirstCreatorError()
+)
+
+/**
  * Attempts to resolve a custom program error from the provided error code.
  * @category Errors
  * @category generated

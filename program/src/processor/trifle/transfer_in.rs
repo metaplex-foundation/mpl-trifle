@@ -126,14 +126,14 @@ pub fn transfer_in(
         let creators_option = asset_data.creators;
         let creators = match creators_option {
             Some(x) => x,
-            None => return Err(TrifleError::InvalidFirstCreator.into())
+            None => return Err(TrifleError::InvalidFirstCreator.into()),
         };
-        let first_creator_option = creators.into_iter().nth(0);
+        let first_creator_option = creators.into_iter().next();
         let first_creator = match first_creator_option {
             Some(x) => x,
-            None => return Err(TrifleError::InvalidFirstCreator.into())
+            None => return Err(TrifleError::InvalidFirstCreator.into()),
         };
-        if first_creator.verified != true {
+        if !first_creator.verified {
             return Err(TrifleError::InvalidAccount.into());
         }
         constraint_model.validate(&first_creator.address, &args.slot)?;
