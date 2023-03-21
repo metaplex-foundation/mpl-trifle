@@ -9,6 +9,7 @@ export * from './Key';
 export * from './RemoveConstraintFromEscrowConstraintModelArgs';
 export * from './RoyaltyInstruction';
 export * from './SetRoyaltiesArgs';
+export * from './TokenAmount';
 export * from './TransferInArgs';
 export * from './TransferOutArgs';
 export * from './WithdrawRoyaltiesArgs';

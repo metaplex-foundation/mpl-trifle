@@ -813,6 +813,50 @@
           }
         ]
       }
+    },
+    {
+      "name": "Trifle",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "type": {
+              "defined": "Key"
+            }
+          },
+          {
+            "name": "tokenEscrow",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokens",
+            "type": {
+              "hashMap": [
+                "string",
+                {
+                  "vec": {
+                    "defined": "TokenAmount"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "escrowConstraintModel",
+            "type": "publicKey"
+          },
+          {
+            "name": "padding",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
     }
   ],
   "types": [
@@ -921,28 +965,6 @@
       }
     },
     {
-      "name": "EscrowConstraint",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "tokenLimit",
-            "type": "u64"
-          },
-          {
-            "name": "constraintType",
-            "type": {
-              "defined": "EscrowConstraintType"
-            }
-          },
-          {
-            "name": "transferEffects",
-            "type": "u16"
-          }
-        ]
-      }
-    },
-    {
       "name": "RemoveConstraintFromEscrowConstraintModelArgs",
       "type": {
         "kind": "struct",
@@ -980,6 +1002,18 @@
       }
     },
     {
+      "name": "WithdrawRoyaltiesArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
       "name": "TransferInArgs",
       "type": {
         "kind": "struct",
@@ -1012,13 +1046,56 @@
       }
     },
     {
-      "name": "WithdrawRoyaltiesArgs",
+      "name": "EscrowConstraint",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "name",
-            "type": "string"
+            "name": "tokenLimit",
+            "type": "u64"
+          },
+          {
+            "name": "constraintType",
+            "type": {
+              "defined": "EscrowConstraintType"
+            }
+          },
+          {
+            "name": "transferEffects",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TokenAmount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Key",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uninitialized"
+          },
+          {
+            "name": "EscrowConstraintModel"
+          },
+          {
+            "name": "Trifle"
           }
         ]
       }
@@ -1076,23 +1153,6 @@
           },
           {
             "name": "RemoveConstraint"
-          }
-        ]
-      }
-    },
-    {
-      "name": "Key",
-      "type": {
-        "kind": "enum",
-        "variants": [
-          {
-            "name": "Uninitialized"
-          },
-          {
-            "name": "EscrowConstraintModel"
-          },
-          {
-            "name": "Trifle"
           }
         ]
       }
@@ -1208,7 +1268,7 @@
   "metadata": {
     "origin": "shank",
     "address": "trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX",
-    "binaryVersion": "0.0.10",
-    "libVersion": "0.0.10"
+    "binaryVersion": "0.0.12",
+    "libVersion": "0.0.12"
   }
 }
