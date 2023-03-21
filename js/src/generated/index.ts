@@ -1,8 +1,8 @@
-import { PublicKey } from '@solana/web3.js'
-export * from './accounts'
-export * from './errors'
-export * from './instructions'
-export * from './types'
+import { PublicKey } from '@solana/web3.js';
+export * from './accounts';
+export * from './errors';
+export * from './instructions';
+export * from './types';
 
 /**
  * Program address
@@ -10,7 +10,7 @@ export * from './types'
  * @category constants
  * @category generated
  */
-export const PROGRAM_ADDRESS = 'trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX'
+export const PROGRAM_ADDRESS = 'trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX';
 
 /**
  * Program public key
@@ -18,4 +18,4 @@ export const PROGRAM_ADDRESS = 'trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX'
  * @category constants
  * @category generated
  */
-export const PROGRAM_ID = new PublicKey(PROGRAM_ADDRESS)
+export const PROGRAM_ID = new PublicKey(PROGRAM_ADDRESS);

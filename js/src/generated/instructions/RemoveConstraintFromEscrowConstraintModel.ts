@@ -5,12 +5,12 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
-import * as web3 from '@solana/web3.js'
+import * as beet from '@metaplex-foundation/beet';
+import * as web3 from '@solana/web3.js';
 import {
   RemoveConstraintFromEscrowConstraintModelArgs,
   removeConstraintFromEscrowConstraintModelArgsBeet,
-} from '../types/RemoveConstraintFromEscrowConstraintModelArgs'
+} from '../types/RemoveConstraintFromEscrowConstraintModelArgs';
 
 /**
  * @category Instructions
@@ -18,28 +18,27 @@ import {
  * @category generated
  */
 export type RemoveConstraintFromEscrowConstraintModelInstructionArgs = {
-  removeConstraintFromEscrowConstraintModelArgs: RemoveConstraintFromEscrowConstraintModelArgs
-}
+  removeConstraintFromEscrowConstraintModelArgs: RemoveConstraintFromEscrowConstraintModelArgs;
+};
 /**
  * @category Instructions
  * @category RemoveConstraintFromEscrowConstraintModel
  * @category generated
  */
-export const RemoveConstraintFromEscrowConstraintModelStruct =
-  new beet.FixableBeetArgsStruct<
-    RemoveConstraintFromEscrowConstraintModelInstructionArgs & {
-      instructionDiscriminator: number
-    }
-  >(
+export const RemoveConstraintFromEscrowConstraintModelStruct = new beet.FixableBeetArgsStruct<
+  RemoveConstraintFromEscrowConstraintModelInstructionArgs & {
+    instructionDiscriminator: number;
+  }
+>(
+  [
+    ['instructionDiscriminator', beet.u8],
     [
-      ['instructionDiscriminator', beet.u8],
-      [
-        'removeConstraintFromEscrowConstraintModelArgs',
-        removeConstraintFromEscrowConstraintModelArgsBeet,
-      ],
+      'removeConstraintFromEscrowConstraintModelArgs',
+      removeConstraintFromEscrowConstraintModelArgsBeet,
     ],
-    'RemoveConstraintFromEscrowConstraintModelInstructionArgs'
-  )
+  ],
+  'RemoveConstraintFromEscrowConstraintModelInstructionArgs',
+);
 /**
  * Accounts required by the _RemoveConstraintFromEscrowConstraintModel_ instruction
  *
@@ -52,14 +51,14 @@ export const RemoveConstraintFromEscrowConstraintModelStruct =
  * @category generated
  */
 export type RemoveConstraintFromEscrowConstraintModelInstructionAccounts = {
-  constraintModel: web3.PublicKey
-  payer: web3.PublicKey
-  updateAuthority: web3.PublicKey
-  systemProgram?: web3.PublicKey
-  sysvarInstructions: web3.PublicKey
-}
+  constraintModel: web3.PublicKey;
+  payer: web3.PublicKey;
+  updateAuthority: web3.PublicKey;
+  systemProgram?: web3.PublicKey;
+  sysvarInstructions: web3.PublicKey;
+};
 
-export const removeConstraintFromEscrowConstraintModelInstructionDiscriminator = 7
+export const removeConstraintFromEscrowConstraintModelInstructionDiscriminator = 7;
 
 /**
  * Creates a _RemoveConstraintFromEscrowConstraintModel_ instruction.
@@ -74,13 +73,12 @@ export const removeConstraintFromEscrowConstraintModelInstructionDiscriminator =
 export function createRemoveConstraintFromEscrowConstraintModelInstruction(
   accounts: RemoveConstraintFromEscrowConstraintModelInstructionAccounts,
   args: RemoveConstraintFromEscrowConstraintModelInstructionArgs,
-  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX')
+  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX'),
 ) {
   const [data] = RemoveConstraintFromEscrowConstraintModelStruct.serialize({
-    instructionDiscriminator:
-      removeConstraintFromEscrowConstraintModelInstructionDiscriminator,
+    instructionDiscriminator: removeConstraintFromEscrowConstraintModelInstructionDiscriminator,
     ...args,
-  })
+  });
   const keys: web3.AccountMeta[] = [
     {
       pubkey: accounts.constraintModel,
@@ -107,12 +105,12 @@ export function createRemoveConstraintFromEscrowConstraintModelInstruction(
       isWritable: false,
       isSigner: false,
     },
-  ]
+  ];
 
   const ix = new web3.TransactionInstruction({
     programId,
     keys,
     data,
-  })
-  return ix
+  });
+  return ix;
 }

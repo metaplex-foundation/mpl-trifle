@@ -5,28 +5,21 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
-import {
-  RoyaltyInstruction,
-  royaltyInstructionBeet,
-} from './RoyaltyInstruction'
+import * as beet from '@metaplex-foundation/beet';
+import { RoyaltyInstruction, royaltyInstructionBeet } from './RoyaltyInstruction';
 export type SetRoyaltiesArgs = {
-  name: string
-  royalties: [RoyaltyInstruction, beet.bignum][]
-}
+  name: string;
+  royalties: [RoyaltyInstruction, beet.bignum][];
+};
 
 /**
  * @category userTypes
  * @category generated
  */
-export const setRoyaltiesArgsBeet =
-  new beet.FixableBeetArgsStruct<SetRoyaltiesArgs>(
-    [
-      ['name', beet.utf8String],
-      [
-        'royalties',
-        beet.array(beet.fixedSizeTuple([royaltyInstructionBeet, beet.u64])),
-      ],
-    ],
-    'SetRoyaltiesArgs'
-  )
+export const setRoyaltiesArgsBeet = new beet.FixableBeetArgsStruct<SetRoyaltiesArgs>(
+  [
+    ['name', beet.utf8String],
+    ['royalties', beet.array(beet.fixedSizeTuple([royaltyInstructionBeet, beet.u64]))],
+  ],
+  'SetRoyaltiesArgs',
+);

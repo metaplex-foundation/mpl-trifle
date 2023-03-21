@@ -5,21 +5,20 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
+import * as beet from '@metaplex-foundation/beet';
 export type TransferOutArgs = {
-  slot: string
-  amount: beet.bignum
-}
+  slot: string;
+  amount: beet.bignum;
+};
 
 /**
  * @category userTypes
  * @category generated
  */
-export const transferOutArgsBeet =
-  new beet.FixableBeetArgsStruct<TransferOutArgs>(
-    [
-      ['slot', beet.utf8String],
-      ['amount', beet.u64],
-    ],
-    'TransferOutArgs'
-  )
+export const transferOutArgsBeet = new beet.FixableBeetArgsStruct<TransferOutArgs>(
+  [
+    ['slot', beet.utf8String],
+    ['amount', beet.u64],
+  ],
+  'TransferOutArgs',
+);

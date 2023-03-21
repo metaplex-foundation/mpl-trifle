@@ -5,12 +5,12 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
-import * as web3 from '@solana/web3.js'
+import * as beet from '@metaplex-foundation/beet';
+import * as web3 from '@solana/web3.js';
 import {
   CreateEscrowConstraintModelAccountArgs,
   createEscrowConstraintModelAccountArgsBeet,
-} from '../types/CreateEscrowConstraintModelAccountArgs'
+} from '../types/CreateEscrowConstraintModelAccountArgs';
 
 /**
  * @category Instructions
@@ -18,28 +18,24 @@ import {
  * @category generated
  */
 export type CreateEscrowConstraintModelAccountInstructionArgs = {
-  createEscrowConstraintModelAccountArgs: CreateEscrowConstraintModelAccountArgs
-}
+  createEscrowConstraintModelAccountArgs: CreateEscrowConstraintModelAccountArgs;
+};
 /**
  * @category Instructions
  * @category CreateEscrowConstraintModelAccount
  * @category generated
  */
-export const CreateEscrowConstraintModelAccountStruct =
-  new beet.FixableBeetArgsStruct<
-    CreateEscrowConstraintModelAccountInstructionArgs & {
-      instructionDiscriminator: number
-    }
-  >(
-    [
-      ['instructionDiscriminator', beet.u8],
-      [
-        'createEscrowConstraintModelAccountArgs',
-        createEscrowConstraintModelAccountArgsBeet,
-      ],
-    ],
-    'CreateEscrowConstraintModelAccountInstructionArgs'
-  )
+export const CreateEscrowConstraintModelAccountStruct = new beet.FixableBeetArgsStruct<
+  CreateEscrowConstraintModelAccountInstructionArgs & {
+    instructionDiscriminator: number;
+  }
+>(
+  [
+    ['instructionDiscriminator', beet.u8],
+    ['createEscrowConstraintModelAccountArgs', createEscrowConstraintModelAccountArgsBeet],
+  ],
+  'CreateEscrowConstraintModelAccountInstructionArgs',
+);
 /**
  * Accounts required by the _CreateEscrowConstraintModelAccount_ instruction
  *
@@ -51,13 +47,13 @@ export const CreateEscrowConstraintModelAccountStruct =
  * @category generated
  */
 export type CreateEscrowConstraintModelAccountInstructionAccounts = {
-  escrowConstraintModel: web3.PublicKey
-  payer: web3.PublicKey
-  updateAuthority: web3.PublicKey
-  systemProgram?: web3.PublicKey
-}
+  escrowConstraintModel: web3.PublicKey;
+  payer: web3.PublicKey;
+  updateAuthority: web3.PublicKey;
+  systemProgram?: web3.PublicKey;
+};
 
-export const createEscrowConstraintModelAccountInstructionDiscriminator = 0
+export const createEscrowConstraintModelAccountInstructionDiscriminator = 0;
 
 /**
  * Creates a _CreateEscrowConstraintModelAccount_ instruction.
@@ -72,13 +68,12 @@ export const createEscrowConstraintModelAccountInstructionDiscriminator = 0
 export function createCreateEscrowConstraintModelAccountInstruction(
   accounts: CreateEscrowConstraintModelAccountInstructionAccounts,
   args: CreateEscrowConstraintModelAccountInstructionArgs,
-  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX')
+  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX'),
 ) {
   const [data] = CreateEscrowConstraintModelAccountStruct.serialize({
-    instructionDiscriminator:
-      createEscrowConstraintModelAccountInstructionDiscriminator,
+    instructionDiscriminator: createEscrowConstraintModelAccountInstructionDiscriminator,
     ...args,
-  })
+  });
   const keys: web3.AccountMeta[] = [
     {
       pubkey: accounts.escrowConstraintModel,
@@ -100,12 +95,12 @@ export function createCreateEscrowConstraintModelAccountInstruction(
       isWritable: false,
       isSigner: false,
     },
-  ]
+  ];
 
   const ix = new web3.TransactionInstruction({
     programId,
     keys,
     data,
-  })
-  return ix
+  });
+  return ix;
 }

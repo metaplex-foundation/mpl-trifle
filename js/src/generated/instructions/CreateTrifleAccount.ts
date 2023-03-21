@@ -5,8 +5,8 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
-import * as web3 from '@solana/web3.js'
+import * as beet from '@metaplex-foundation/beet';
+import * as web3 from '@solana/web3.js';
 
 /**
  * @category Instructions
@@ -14,11 +14,8 @@ import * as web3 from '@solana/web3.js'
  * @category generated
  */
 export const CreateTrifleAccountStruct = new beet.BeetArgsStruct<{
-  instructionDiscriminator: number
-}>(
-  [['instructionDiscriminator', beet.u8]],
-  'CreateTrifleAccountInstructionArgs'
-)
+  instructionDiscriminator: number;
+}>([['instructionDiscriminator', beet.u8]], 'CreateTrifleAccountInstructionArgs');
 /**
  * Accounts required by the _CreateTrifleAccount_ instruction
  *
@@ -38,21 +35,21 @@ export const CreateTrifleAccountStruct = new beet.BeetArgsStruct<{
  * @category generated
  */
 export type CreateTrifleAccountInstructionAccounts = {
-  escrow: web3.PublicKey
-  metadata: web3.PublicKey
-  mint: web3.PublicKey
-  tokenAccount: web3.PublicKey
-  edition: web3.PublicKey
-  trifleAccount: web3.PublicKey
-  trifleAuthority: web3.PublicKey
-  constraintModel: web3.PublicKey
-  payer: web3.PublicKey
-  tokenMetadataProgram: web3.PublicKey
-  systemProgram?: web3.PublicKey
-  sysvarInstructions: web3.PublicKey
-}
+  escrow: web3.PublicKey;
+  metadata: web3.PublicKey;
+  mint: web3.PublicKey;
+  tokenAccount: web3.PublicKey;
+  edition: web3.PublicKey;
+  trifleAccount: web3.PublicKey;
+  trifleAuthority: web3.PublicKey;
+  constraintModel: web3.PublicKey;
+  payer: web3.PublicKey;
+  tokenMetadataProgram: web3.PublicKey;
+  systemProgram?: web3.PublicKey;
+  sysvarInstructions: web3.PublicKey;
+};
 
-export const createTrifleAccountInstructionDiscriminator = 1
+export const createTrifleAccountInstructionDiscriminator = 1;
 
 /**
  * Creates a _CreateTrifleAccount_ instruction.
@@ -64,11 +61,11 @@ export const createTrifleAccountInstructionDiscriminator = 1
  */
 export function createCreateTrifleAccountInstruction(
   accounts: CreateTrifleAccountInstructionAccounts,
-  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX')
+  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX'),
 ) {
   const [data] = CreateTrifleAccountStruct.serialize({
     instructionDiscriminator: createTrifleAccountInstructionDiscriminator,
-  })
+  });
   const keys: web3.AccountMeta[] = [
     {
       pubkey: accounts.escrow,
@@ -130,12 +127,12 @@ export function createCreateTrifleAccountInstruction(
       isWritable: false,
       isSigner: false,
     },
-  ]
+  ];
 
   const ix = new web3.TransactionInstruction({
     programId,
     keys,
     data,
-  })
-  return ix
+  });
+  return ix;
 }

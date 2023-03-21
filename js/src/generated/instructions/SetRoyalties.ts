@@ -5,12 +5,9 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
-import * as web3 from '@solana/web3.js'
-import {
-  SetRoyaltiesArgs,
-  setRoyaltiesArgsBeet,
-} from '../types/SetRoyaltiesArgs'
+import * as beet from '@metaplex-foundation/beet';
+import * as web3 from '@solana/web3.js';
+import { SetRoyaltiesArgs, setRoyaltiesArgsBeet } from '../types/SetRoyaltiesArgs';
 
 /**
  * @category Instructions
@@ -18,8 +15,8 @@ import {
  * @category generated
  */
 export type SetRoyaltiesInstructionArgs = {
-  setRoyaltiesArgs: SetRoyaltiesArgs
-}
+  setRoyaltiesArgs: SetRoyaltiesArgs;
+};
 /**
  * @category Instructions
  * @category SetRoyalties
@@ -27,15 +24,15 @@ export type SetRoyaltiesInstructionArgs = {
  */
 export const SetRoyaltiesStruct = new beet.FixableBeetArgsStruct<
   SetRoyaltiesInstructionArgs & {
-    instructionDiscriminator: number
+    instructionDiscriminator: number;
   }
 >(
   [
     ['instructionDiscriminator', beet.u8],
     ['setRoyaltiesArgs', setRoyaltiesArgsBeet],
   ],
-  'SetRoyaltiesInstructionArgs'
-)
+  'SetRoyaltiesInstructionArgs',
+);
 /**
  * Accounts required by the _SetRoyalties_ instruction
  *
@@ -48,14 +45,14 @@ export const SetRoyaltiesStruct = new beet.FixableBeetArgsStruct<
  * @category generated
  */
 export type SetRoyaltiesInstructionAccounts = {
-  constraintModel: web3.PublicKey
-  payer: web3.PublicKey
-  updateAuthority: web3.PublicKey
-  systemProgram?: web3.PublicKey
-  sysvarInstructions: web3.PublicKey
-}
+  constraintModel: web3.PublicKey;
+  payer: web3.PublicKey;
+  updateAuthority: web3.PublicKey;
+  systemProgram?: web3.PublicKey;
+  sysvarInstructions: web3.PublicKey;
+};
 
-export const setRoyaltiesInstructionDiscriminator = 8
+export const setRoyaltiesInstructionDiscriminator = 8;
 
 /**
  * Creates a _SetRoyalties_ instruction.
@@ -70,12 +67,12 @@ export const setRoyaltiesInstructionDiscriminator = 8
 export function createSetRoyaltiesInstruction(
   accounts: SetRoyaltiesInstructionAccounts,
   args: SetRoyaltiesInstructionArgs,
-  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX')
+  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX'),
 ) {
   const [data] = SetRoyaltiesStruct.serialize({
     instructionDiscriminator: setRoyaltiesInstructionDiscriminator,
     ...args,
-  })
+  });
   const keys: web3.AccountMeta[] = [
     {
       pubkey: accounts.constraintModel,
@@ -102,12 +99,12 @@ export function createSetRoyaltiesInstruction(
       isWritable: false,
       isSigner: false,
     },
-  ]
+  ];
 
   const ix = new web3.TransactionInstruction({
     programId,
     keys,
     data,
-  })
-  return ix
+  });
+  return ix;
 }

@@ -5,10 +5,10 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
+import * as beet from '@metaplex-foundation/beet';
 export type RemoveConstraintFromEscrowConstraintModelArgs = {
-  constraintName: string
-}
+  constraintName: string;
+};
 
 /**
  * @category userTypes
@@ -17,5 +17,5 @@ export type RemoveConstraintFromEscrowConstraintModelArgs = {
 export const removeConstraintFromEscrowConstraintModelArgsBeet =
   new beet.FixableBeetArgsStruct<RemoveConstraintFromEscrowConstraintModelArgs>(
     [['constraintName', beet.utf8String]],
-    'RemoveConstraintFromEscrowConstraintModelArgs'
-  )
+    'RemoveConstraintFromEscrowConstraintModelArgs',
+  );

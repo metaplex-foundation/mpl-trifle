@@ -5,15 +5,15 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as web3 from '@solana/web3.js'
-import * as beet from '@metaplex-foundation/beet'
-import * as beetSolana from '@metaplex-foundation/beet-solana'
+import * as web3 from '@solana/web3.js';
+import * as beet from '@metaplex-foundation/beet';
+import * as beetSolana from '@metaplex-foundation/beet-solana';
 export type AddTokensConstraintToEscrowConstraintModelArgs = {
-  constraintName: string
-  tokens: web3.PublicKey[]
-  tokenLimit: beet.bignum
-  transferEffects: number
-}
+  constraintName: string;
+  tokens: web3.PublicKey[];
+  tokenLimit: beet.bignum;
+  transferEffects: number;
+};
 
 /**
  * @category userTypes
@@ -27,5 +27,5 @@ export const addTokensConstraintToEscrowConstraintModelArgsBeet =
       ['tokenLimit', beet.u64],
       ['transferEffects', beet.u16],
     ],
-    'AddTokensConstraintToEscrowConstraintModelArgs'
-  )
+    'AddTokensConstraintToEscrowConstraintModelArgs',
+  );

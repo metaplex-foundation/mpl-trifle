@@ -5,12 +5,12 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
-import * as web3 from '@solana/web3.js'
+import * as beet from '@metaplex-foundation/beet';
+import * as web3 from '@solana/web3.js';
 import {
   AddFirstCreatorConstraintToEscrowConstraintModelArgs,
   addFirstCreatorConstraintToEscrowConstraintModelArgsBeet,
-} from '../types/AddFirstCreatorConstraintToEscrowConstraintModelArgs'
+} from '../types/AddFirstCreatorConstraintToEscrowConstraintModelArgs';
 
 /**
  * @category Instructions
@@ -18,8 +18,8 @@ import {
  * @category generated
  */
 export type AddFirstCreatorConstraintToEscrowConstraintModelInstructionArgs = {
-  addFirstCreatorConstraintToEscrowConstraintModelArgs: AddFirstCreatorConstraintToEscrowConstraintModelArgs
-}
+  addFirstCreatorConstraintToEscrowConstraintModelArgs: AddFirstCreatorConstraintToEscrowConstraintModelArgs;
+};
 /**
  * @category Instructions
  * @category AddFirstCreatorConstraintToEscrowConstraintModel
@@ -28,7 +28,7 @@ export type AddFirstCreatorConstraintToEscrowConstraintModelInstructionArgs = {
 export const AddFirstCreatorConstraintToEscrowConstraintModelStruct =
   new beet.FixableBeetArgsStruct<
     AddFirstCreatorConstraintToEscrowConstraintModelInstructionArgs & {
-      instructionDiscriminator: number
+      instructionDiscriminator: number;
     }
   >(
     [
@@ -38,8 +38,8 @@ export const AddFirstCreatorConstraintToEscrowConstraintModelStruct =
         addFirstCreatorConstraintToEscrowConstraintModelArgsBeet,
       ],
     ],
-    'AddFirstCreatorConstraintToEscrowConstraintModelInstructionArgs'
-  )
+    'AddFirstCreatorConstraintToEscrowConstraintModelInstructionArgs',
+  );
 /**
  * Accounts required by the _AddFirstCreatorConstraintToEscrowConstraintModel_ instruction
  *
@@ -52,17 +52,16 @@ export const AddFirstCreatorConstraintToEscrowConstraintModelStruct =
  * @category AddFirstCreatorConstraintToEscrowConstraintModel
  * @category generated
  */
-export type AddFirstCreatorConstraintToEscrowConstraintModelInstructionAccounts =
-  {
-    constraintModel: web3.PublicKey
-    payer: web3.PublicKey
-    updateAuthority: web3.PublicKey
-    firstCreator: web3.PublicKey
-    systemProgram?: web3.PublicKey
-    sysvarInstructions: web3.PublicKey
-  }
+export type AddFirstCreatorConstraintToEscrowConstraintModelInstructionAccounts = {
+  constraintModel: web3.PublicKey;
+  payer: web3.PublicKey;
+  updateAuthority: web3.PublicKey;
+  firstCreator: web3.PublicKey;
+  systemProgram?: web3.PublicKey;
+  sysvarInstructions: web3.PublicKey;
+};
 
-export const addFirstCreatorConstraintToEscrowConstraintModelInstructionDiscriminator = 10
+export const addFirstCreatorConstraintToEscrowConstraintModelInstructionDiscriminator = 10;
 
 /**
  * Creates a _AddFirstCreatorConstraintToEscrowConstraintModel_ instruction.
@@ -77,14 +76,13 @@ export const addFirstCreatorConstraintToEscrowConstraintModelInstructionDiscrimi
 export function createAddFirstCreatorConstraintToEscrowConstraintModelInstruction(
   accounts: AddFirstCreatorConstraintToEscrowConstraintModelInstructionAccounts,
   args: AddFirstCreatorConstraintToEscrowConstraintModelInstructionArgs,
-  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX')
+  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX'),
 ) {
-  const [data] =
-    AddFirstCreatorConstraintToEscrowConstraintModelStruct.serialize({
-      instructionDiscriminator:
-        addFirstCreatorConstraintToEscrowConstraintModelInstructionDiscriminator,
-      ...args,
-    })
+  const [data] = AddFirstCreatorConstraintToEscrowConstraintModelStruct.serialize({
+    instructionDiscriminator:
+      addFirstCreatorConstraintToEscrowConstraintModelInstructionDiscriminator,
+    ...args,
+  });
   const keys: web3.AccountMeta[] = [
     {
       pubkey: accounts.constraintModel,
@@ -116,12 +114,12 @@ export function createAddFirstCreatorConstraintToEscrowConstraintModelInstructio
       isWritable: false,
       isSigner: false,
     },
-  ]
+  ];
 
   const ix = new web3.TransactionInstruction({
     programId,
     keys,
     data,
-  })
-  return ix
+  });
+  return ix;
 }

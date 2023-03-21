@@ -5,12 +5,12 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
+import * as beet from '@metaplex-foundation/beet';
 export type AddFirstCreatorConstraintToEscrowConstraintModelArgs = {
-  constraintName: string
-  tokenLimit: beet.bignum
-  transferEffects: number
-}
+  constraintName: string;
+  tokenLimit: beet.bignum;
+  transferEffects: number;
+};
 
 /**
  * @category userTypes
@@ -23,5 +23,5 @@ export const addFirstCreatorConstraintToEscrowConstraintModelArgsBeet =
       ['tokenLimit', beet.u64],
       ['transferEffects', beet.u16],
     ],
-    'AddFirstCreatorConstraintToEscrowConstraintModelArgs'
-  )
+    'AddFirstCreatorConstraintToEscrowConstraintModelArgs',
+  );

@@ -5,9 +5,9 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as web3 from '@solana/web3.js'
-import * as beet from '@metaplex-foundation/beet'
-import * as beetSolana from '@metaplex-foundation/beet-solana'
+import * as web3 from '@solana/web3.js';
+import * as beet from '@metaplex-foundation/beet';
+import * as beetSolana from '@metaplex-foundation/beet-solana';
 /**
  * This type is used to derive the {@link EscrowConstraintType} type as well as the de/serializer.
  * However don't refer to it in your code but use the {@link EscrowConstraintType} type instead.
@@ -18,11 +18,11 @@ import * as beetSolana from '@metaplex-foundation/beet-solana'
  * @private
  */
 export type EscrowConstraintTypeRecord = {
-  None: void /* scalar variant */
-  Collection: { fields: [web3.PublicKey] }
-  Tokens: { fields: [Set<web3.PublicKey>] }
-  FirstCreator: { fields: [web3.PublicKey] }
-}
+  None: void /* scalar variant */;
+  Collection: { fields: [web3.PublicKey] };
+  Tokens: { fields: [Set<web3.PublicKey>] };
+  FirstCreator: { fields: [web3.PublicKey] };
+};
 
 /**
  * Union type respresenting the EscrowConstraintType data enum defined in Rust.
@@ -35,50 +35,46 @@ export type EscrowConstraintTypeRecord = {
  * @category enums
  * @category generated
  */
-export type EscrowConstraintType =
-  beet.DataEnumKeyAsKind<EscrowConstraintTypeRecord>
+export type EscrowConstraintType = beet.DataEnumKeyAsKind<EscrowConstraintTypeRecord>;
 
 export const isEscrowConstraintTypeNone = (
-  x: EscrowConstraintType
-): x is EscrowConstraintType & { __kind: 'None' } => x.__kind === 'None'
+  x: EscrowConstraintType,
+): x is EscrowConstraintType & { __kind: 'None' } => x.__kind === 'None';
 export const isEscrowConstraintTypeCollection = (
-  x: EscrowConstraintType
-): x is EscrowConstraintType & { __kind: 'Collection' } =>
-  x.__kind === 'Collection'
+  x: EscrowConstraintType,
+): x is EscrowConstraintType & { __kind: 'Collection' } => x.__kind === 'Collection';
 export const isEscrowConstraintTypeTokens = (
-  x: EscrowConstraintType
-): x is EscrowConstraintType & { __kind: 'Tokens' } => x.__kind === 'Tokens'
+  x: EscrowConstraintType,
+): x is EscrowConstraintType & { __kind: 'Tokens' } => x.__kind === 'Tokens';
 export const isEscrowConstraintTypeFirstCreator = (
-  x: EscrowConstraintType
-): x is EscrowConstraintType & { __kind: 'FirstCreator' } =>
-  x.__kind === 'FirstCreator'
+  x: EscrowConstraintType,
+): x is EscrowConstraintType & { __kind: 'FirstCreator' } => x.__kind === 'FirstCreator';
 
 /**
  * @category userTypes
  * @category generated
  */
-export const escrowConstraintTypeBeet =
-  beet.dataEnum<EscrowConstraintTypeRecord>([
-    ['None', beet.unit],
-    [
-      'Collection',
-      new beet.BeetArgsStruct<EscrowConstraintTypeRecord['Collection']>(
-        [['fields', beet.fixedSizeTuple([beetSolana.publicKey])]],
-        'EscrowConstraintTypeRecord["Collection"]'
-      ),
-    ],
-    [
-      'Tokens',
-      new beet.FixableBeetArgsStruct<EscrowConstraintTypeRecord['Tokens']>(
-        [['fields', beet.tuple([beet.set(beetSolana.publicKey)])]],
-        'EscrowConstraintTypeRecord["Tokens"]'
-      ),
-    ],
-    [
-      'FirstCreator',
-      new beet.BeetArgsStruct<EscrowConstraintTypeRecord['FirstCreator']>(
-        [['fields', beet.fixedSizeTuple([beetSolana.publicKey])]],
-        'EscrowConstraintTypeRecord["FirstCreator"]'
-      ),
-    ],
-  ]) as beet.FixableBeet<EscrowConstraintType>
+export const escrowConstraintTypeBeet = beet.dataEnum<EscrowConstraintTypeRecord>([
+  ['None', beet.unit],
+  [
+    'Collection',
+    new beet.BeetArgsStruct<EscrowConstraintTypeRecord['Collection']>(
+      [['fields', beet.fixedSizeTuple([beetSolana.publicKey])]],
+      'EscrowConstraintTypeRecord["Collection"]',
+    ),
+  ],
+  [
+    'Tokens',
+    new beet.FixableBeetArgsStruct<EscrowConstraintTypeRecord['Tokens']>(
+      [['fields', beet.tuple([beet.set(beetSolana.publicKey)])]],
+      'EscrowConstraintTypeRecord["Tokens"]',
+    ),
+  ],
+  [
+    'FirstCreator',
+    new beet.BeetArgsStruct<EscrowConstraintTypeRecord['FirstCreator']>(
+      [['fields', beet.fixedSizeTuple([beetSolana.publicKey])]],
+      'EscrowConstraintTypeRecord["FirstCreator"]',
+    ),
+  ],
+]) as beet.FixableBeet<EscrowConstraintType>;

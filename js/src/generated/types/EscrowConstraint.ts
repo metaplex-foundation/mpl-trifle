@@ -5,27 +5,23 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
-import {
-  EscrowConstraintType,
-  escrowConstraintTypeBeet,
-} from './EscrowConstraintType'
+import * as beet from '@metaplex-foundation/beet';
+import { EscrowConstraintType, escrowConstraintTypeBeet } from './EscrowConstraintType';
 export type EscrowConstraint = {
-  tokenLimit: beet.bignum
-  constraintType: EscrowConstraintType
-  transferEffects: number
-}
+  tokenLimit: beet.bignum;
+  constraintType: EscrowConstraintType;
+  transferEffects: number;
+};
 
 /**
  * @category userTypes
  * @category generated
  */
-export const escrowConstraintBeet =
-  new beet.FixableBeetArgsStruct<EscrowConstraint>(
-    [
-      ['tokenLimit', beet.u64],
-      ['constraintType', escrowConstraintTypeBeet],
-      ['transferEffects', beet.u16],
-    ],
-    'EscrowConstraint'
-  )
+export const escrowConstraintBeet = new beet.FixableBeetArgsStruct<EscrowConstraint>(
+  [
+    ['tokenLimit', beet.u64],
+    ['constraintType', escrowConstraintTypeBeet],
+    ['transferEffects', beet.u16],
+  ],
+  'EscrowConstraint',
+);

@@ -5,12 +5,12 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
-import * as web3 from '@solana/web3.js'
+import * as beet from '@metaplex-foundation/beet';
+import * as web3 from '@solana/web3.js';
 import {
   AddTokensConstraintToEscrowConstraintModelArgs,
   addTokensConstraintToEscrowConstraintModelArgsBeet,
-} from '../types/AddTokensConstraintToEscrowConstraintModelArgs'
+} from '../types/AddTokensConstraintToEscrowConstraintModelArgs';
 
 /**
  * @category Instructions
@@ -18,28 +18,27 @@ import {
  * @category generated
  */
 export type AddTokensConstraintToEscrowConstraintModelInstructionArgs = {
-  addTokensConstraintToEscrowConstraintModelArgs: AddTokensConstraintToEscrowConstraintModelArgs
-}
+  addTokensConstraintToEscrowConstraintModelArgs: AddTokensConstraintToEscrowConstraintModelArgs;
+};
 /**
  * @category Instructions
  * @category AddTokensConstraintToEscrowConstraintModel
  * @category generated
  */
-export const AddTokensConstraintToEscrowConstraintModelStruct =
-  new beet.FixableBeetArgsStruct<
-    AddTokensConstraintToEscrowConstraintModelInstructionArgs & {
-      instructionDiscriminator: number
-    }
-  >(
+export const AddTokensConstraintToEscrowConstraintModelStruct = new beet.FixableBeetArgsStruct<
+  AddTokensConstraintToEscrowConstraintModelInstructionArgs & {
+    instructionDiscriminator: number;
+  }
+>(
+  [
+    ['instructionDiscriminator', beet.u8],
     [
-      ['instructionDiscriminator', beet.u8],
-      [
-        'addTokensConstraintToEscrowConstraintModelArgs',
-        addTokensConstraintToEscrowConstraintModelArgsBeet,
-      ],
+      'addTokensConstraintToEscrowConstraintModelArgs',
+      addTokensConstraintToEscrowConstraintModelArgsBeet,
     ],
-    'AddTokensConstraintToEscrowConstraintModelInstructionArgs'
-  )
+  ],
+  'AddTokensConstraintToEscrowConstraintModelInstructionArgs',
+);
 /**
  * Accounts required by the _AddTokensConstraintToEscrowConstraintModel_ instruction
  *
@@ -52,14 +51,14 @@ export const AddTokensConstraintToEscrowConstraintModelStruct =
  * @category generated
  */
 export type AddTokensConstraintToEscrowConstraintModelInstructionAccounts = {
-  constraintModel: web3.PublicKey
-  payer: web3.PublicKey
-  updateAuthority: web3.PublicKey
-  systemProgram?: web3.PublicKey
-  sysvarInstructions: web3.PublicKey
-}
+  constraintModel: web3.PublicKey;
+  payer: web3.PublicKey;
+  updateAuthority: web3.PublicKey;
+  systemProgram?: web3.PublicKey;
+  sysvarInstructions: web3.PublicKey;
+};
 
-export const addTokensConstraintToEscrowConstraintModelInstructionDiscriminator = 6
+export const addTokensConstraintToEscrowConstraintModelInstructionDiscriminator = 6;
 
 /**
  * Creates a _AddTokensConstraintToEscrowConstraintModel_ instruction.
@@ -74,13 +73,12 @@ export const addTokensConstraintToEscrowConstraintModelInstructionDiscriminator 
 export function createAddTokensConstraintToEscrowConstraintModelInstruction(
   accounts: AddTokensConstraintToEscrowConstraintModelInstructionAccounts,
   args: AddTokensConstraintToEscrowConstraintModelInstructionArgs,
-  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX')
+  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX'),
 ) {
   const [data] = AddTokensConstraintToEscrowConstraintModelStruct.serialize({
-    instructionDiscriminator:
-      addTokensConstraintToEscrowConstraintModelInstructionDiscriminator,
+    instructionDiscriminator: addTokensConstraintToEscrowConstraintModelInstructionDiscriminator,
     ...args,
-  })
+  });
   const keys: web3.AccountMeta[] = [
     {
       pubkey: accounts.constraintModel,
@@ -107,12 +105,12 @@ export function createAddTokensConstraintToEscrowConstraintModelInstruction(
       isWritable: false,
       isSigner: false,
     },
-  ]
+  ];
 
   const ix = new web3.TransactionInstruction({
     programId,
     keys,
     data,
-  })
-  return ix
+  });
+  return ix;
 }

@@ -5,12 +5,9 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
-import * as web3 from '@solana/web3.js'
-import {
-  WithdrawRoyaltiesArgs,
-  withdrawRoyaltiesArgsBeet,
-} from '../types/WithdrawRoyaltiesArgs'
+import * as beet from '@metaplex-foundation/beet';
+import * as web3 from '@solana/web3.js';
+import { WithdrawRoyaltiesArgs, withdrawRoyaltiesArgsBeet } from '../types/WithdrawRoyaltiesArgs';
 
 /**
  * @category Instructions
@@ -18,8 +15,8 @@ import {
  * @category generated
  */
 export type WithdrawRoyaltiesInstructionArgs = {
-  withdrawRoyaltiesArgs: WithdrawRoyaltiesArgs
-}
+  withdrawRoyaltiesArgs: WithdrawRoyaltiesArgs;
+};
 /**
  * @category Instructions
  * @category WithdrawRoyalties
@@ -27,15 +24,15 @@ export type WithdrawRoyaltiesInstructionArgs = {
  */
 export const WithdrawRoyaltiesStruct = new beet.FixableBeetArgsStruct<
   WithdrawRoyaltiesInstructionArgs & {
-    instructionDiscriminator: number
+    instructionDiscriminator: number;
   }
 >(
   [
     ['instructionDiscriminator', beet.u8],
     ['withdrawRoyaltiesArgs', withdrawRoyaltiesArgsBeet],
   ],
-  'WithdrawRoyaltiesInstructionArgs'
-)
+  'WithdrawRoyaltiesInstructionArgs',
+);
 /**
  * Accounts required by the _WithdrawRoyalties_ instruction
  *
@@ -49,15 +46,15 @@ export const WithdrawRoyaltiesStruct = new beet.FixableBeetArgsStruct<
  * @category generated
  */
 export type WithdrawRoyaltiesInstructionAccounts = {
-  constraintModel: web3.PublicKey
-  payer: web3.PublicKey
-  updateAuthority: web3.PublicKey
-  destination: web3.PublicKey
-  systemProgram?: web3.PublicKey
-  sysvarInstructions: web3.PublicKey
-}
+  constraintModel: web3.PublicKey;
+  payer: web3.PublicKey;
+  updateAuthority: web3.PublicKey;
+  destination: web3.PublicKey;
+  systemProgram?: web3.PublicKey;
+  sysvarInstructions: web3.PublicKey;
+};
 
-export const withdrawRoyaltiesInstructionDiscriminator = 9
+export const withdrawRoyaltiesInstructionDiscriminator = 9;
 
 /**
  * Creates a _WithdrawRoyalties_ instruction.
@@ -72,12 +69,12 @@ export const withdrawRoyaltiesInstructionDiscriminator = 9
 export function createWithdrawRoyaltiesInstruction(
   accounts: WithdrawRoyaltiesInstructionAccounts,
   args: WithdrawRoyaltiesInstructionArgs,
-  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX')
+  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX'),
 ) {
   const [data] = WithdrawRoyaltiesStruct.serialize({
     instructionDiscriminator: withdrawRoyaltiesInstructionDiscriminator,
     ...args,
-  })
+  });
   const keys: web3.AccountMeta[] = [
     {
       pubkey: accounts.constraintModel,
@@ -109,12 +106,12 @@ export function createWithdrawRoyaltiesInstruction(
       isWritable: false,
       isSigner: false,
     },
-  ]
+  ];
 
   const ix = new web3.TransactionInstruction({
     programId,
     keys,
     data,
-  })
-  return ix
+  });
+  return ix;
 }

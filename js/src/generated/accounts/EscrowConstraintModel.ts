@@ -5,18 +5,12 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as web3 from '@solana/web3.js'
-import * as beet from '@metaplex-foundation/beet'
-import * as beetSolana from '@metaplex-foundation/beet-solana'
-import { Key, keyBeet } from '../types/Key'
-import {
-  EscrowConstraint,
-  escrowConstraintBeet,
-} from '../types/EscrowConstraint'
-import {
-  RoyaltyInstruction,
-  royaltyInstructionBeet,
-} from '../types/RoyaltyInstruction'
+import * as web3 from '@solana/web3.js';
+import * as beet from '@metaplex-foundation/beet';
+import * as beetSolana from '@metaplex-foundation/beet-solana';
+import { Key, keyBeet } from '../types/Key';
+import { EscrowConstraint, escrowConstraintBeet } from '../types/EscrowConstraint';
+import { RoyaltyInstruction, royaltyInstructionBeet } from '../types/RoyaltyInstruction';
 
 /**
  * Arguments used to create {@link EscrowConstraintModel}
@@ -24,17 +18,17 @@ import {
  * @category generated
  */
 export type EscrowConstraintModelArgs = {
-  key: Key
-  creator: web3.PublicKey
-  name: string
-  constraints: Map<string, EscrowConstraint>
-  updateAuthority: web3.PublicKey
-  count: beet.bignum
-  schemaUri: beet.COption<string>
-  royalties: Map<RoyaltyInstruction, Partial<beet.bignum>>
-  royaltyBalance: beet.bignum
-  padding: number[] /* size: 32 */
-}
+  key: Key;
+  creator: web3.PublicKey;
+  name: string;
+  constraints: Map<string, EscrowConstraint>;
+  updateAuthority: web3.PublicKey;
+  count: beet.bignum;
+  schemaUri: beet.COption<string>;
+  royalties: Map<RoyaltyInstruction, Partial<beet.bignum>>;
+  royaltyBalance: beet.bignum;
+  padding: number[] /* size: 32 */;
+};
 /**
  * Holds the data for the {@link EscrowConstraintModel} Account and provides de/serialization
  * functionality for that data
@@ -53,7 +47,7 @@ export class EscrowConstraintModel implements EscrowConstraintModelArgs {
     readonly schemaUri: beet.COption<string>,
     readonly royalties: Map<RoyaltyInstruction, Partial<beet.bignum>>,
     readonly royaltyBalance: beet.bignum,
-    readonly padding: number[] /* size: 32 */
+    readonly padding: number[] /* size: 32 */,
   ) {}
 
   /**
@@ -70,8 +64,8 @@ export class EscrowConstraintModel implements EscrowConstraintModelArgs {
       args.schemaUri,
       args.royalties,
       args.royaltyBalance,
-      args.padding
-    )
+      args.padding,
+    );
   }
 
   /**
@@ -80,9 +74,9 @@ export class EscrowConstraintModel implements EscrowConstraintModelArgs {
    */
   static fromAccountInfo(
     accountInfo: web3.AccountInfo<Buffer>,
-    offset = 0
+    offset = 0,
   ): [EscrowConstraintModel, number] {
-    return EscrowConstraintModel.deserialize(accountInfo.data, offset)
+    return EscrowConstraintModel.deserialize(accountInfo.data, offset);
   }
 
   /**
@@ -94,18 +88,13 @@ export class EscrowConstraintModel implements EscrowConstraintModelArgs {
   static async fromAccountAddress(
     connection: web3.Connection,
     address: web3.PublicKey,
-    commitmentOrConfig?: web3.Commitment | web3.GetAccountInfoConfig
+    commitmentOrConfig?: web3.Commitment | web3.GetAccountInfoConfig,
   ): Promise<EscrowConstraintModel> {
-    const accountInfo = await connection.getAccountInfo(
-      address,
-      commitmentOrConfig
-    )
+    const accountInfo = await connection.getAccountInfo(address, commitmentOrConfig);
     if (accountInfo == null) {
-      throw new Error(
-        `Unable to find EscrowConstraintModel account at ${address}`
-      )
+      throw new Error(`Unable to find EscrowConstraintModel account at ${address}`);
     }
-    return EscrowConstraintModel.fromAccountInfo(accountInfo, 0)[0]
+    return EscrowConstraintModel.fromAccountInfo(accountInfo, 0)[0];
   }
 
   /**
@@ -115,14 +104,9 @@ export class EscrowConstraintModel implements EscrowConstraintModelArgs {
    * @param programId - the program that owns the accounts we are filtering
    */
   static gpaBuilder(
-    programId: web3.PublicKey = new web3.PublicKey(
-      'trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX'
-    )
+    programId: web3.PublicKey = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX'),
   ) {
-    return beetSolana.GpaBuilder.fromStruct(
-      programId,
-      escrowConstraintModelBeet
-    )
+    return beetSolana.GpaBuilder.fromStruct(programId, escrowConstraintModelBeet);
   }
 
   /**
@@ -130,7 +114,7 @@ export class EscrowConstraintModel implements EscrowConstraintModelArgs {
    * @returns a tuple of the account data and the offset up to which the buffer was read to obtain it.
    */
   static deserialize(buf: Buffer, offset = 0): [EscrowConstraintModel, number] {
-    return escrowConstraintModelBeet.deserialize(buf, offset)
+    return escrowConstraintModelBeet.deserialize(buf, offset);
   }
 
   /**
@@ -138,7 +122,7 @@ export class EscrowConstraintModel implements EscrowConstraintModelArgs {
    * @returns a tuple of the created Buffer and the offset up to which the buffer was written to store it.
    */
   serialize(): [Buffer, number] {
-    return escrowConstraintModelBeet.serialize(this)
+    return escrowConstraintModelBeet.serialize(this);
   }
 
   /**
@@ -149,8 +133,8 @@ export class EscrowConstraintModel implements EscrowConstraintModelArgs {
    * depends on them
    */
   static byteSize(args: EscrowConstraintModelArgs) {
-    const instance = EscrowConstraintModel.fromArgs(args)
-    return escrowConstraintModelBeet.toFixedFromValue(instance).byteSize
+    const instance = EscrowConstraintModel.fromArgs(args);
+    return escrowConstraintModelBeet.toFixedFromValue(instance).byteSize;
   }
 
   /**
@@ -164,12 +148,12 @@ export class EscrowConstraintModel implements EscrowConstraintModelArgs {
   static async getMinimumBalanceForRentExemption(
     args: EscrowConstraintModelArgs,
     connection: web3.Connection,
-    commitment?: web3.Commitment
+    commitment?: web3.Commitment,
   ): Promise<number> {
     return connection.getMinimumBalanceForRentExemption(
       EscrowConstraintModel.byteSize(args),
-      commitment
-    )
+      commitment,
+    );
   }
 
   /**
@@ -184,31 +168,31 @@ export class EscrowConstraintModel implements EscrowConstraintModelArgs {
       constraints: this.constraints,
       updateAuthority: this.updateAuthority.toBase58(),
       count: (() => {
-        const x = <{ toNumber: () => number }>this.count
+        const x = <{ toNumber: () => number }>this.count;
         if (typeof x.toNumber === 'function') {
           try {
-            return x.toNumber()
+            return x.toNumber();
           } catch (_) {
-            return x
+            return x;
           }
         }
-        return x
+        return x;
       })(),
       schemaUri: this.schemaUri,
       royalties: this.royalties,
       royaltyBalance: (() => {
-        const x = <{ toNumber: () => number }>this.royaltyBalance
+        const x = <{ toNumber: () => number }>this.royaltyBalance;
         if (typeof x.toNumber === 'function') {
           try {
-            return x.toNumber()
+            return x.toNumber();
           } catch (_) {
-            return x
+            return x;
           }
         }
-        return x
+        return x;
       })(),
       padding: this.padding,
-    }
+    };
   }
 }
 
@@ -233,5 +217,5 @@ export const escrowConstraintModelBeet = new beet.FixableBeetStruct<
     ['padding', beet.uniformFixedSizeArray(beet.u8, 32)],
   ],
   EscrowConstraintModel.fromArgs,
-  'EscrowConstraintModel'
-)
+  'EscrowConstraintModel',
+);

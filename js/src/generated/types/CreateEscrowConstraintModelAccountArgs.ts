@@ -5,11 +5,11 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
+import * as beet from '@metaplex-foundation/beet';
 export type CreateEscrowConstraintModelAccountArgs = {
-  name: string
-  schemaUri: beet.COption<string>
-}
+  name: string;
+  schemaUri: beet.COption<string>;
+};
 
 /**
  * @category userTypes
@@ -21,5 +21,5 @@ export const createEscrowConstraintModelAccountArgsBeet =
       ['name', beet.utf8String],
       ['schemaUri', beet.coption(beet.utf8String)],
     ],
-    'CreateEscrowConstraintModelAccountArgs'
-  )
+    'CreateEscrowConstraintModelAccountArgs',
+  );

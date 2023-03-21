@@ -5,7 +5,7 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
+import * as beet from '@metaplex-foundation/beet';
 /**
  * @category enums
  * @category generated
@@ -24,5 +24,5 @@ export enum RoyaltyInstruction {
  * @category generated
  */
 export const royaltyInstructionBeet = beet.fixedScalarEnum(
-  RoyaltyInstruction
-) as beet.FixedSizeBeet<RoyaltyInstruction, RoyaltyInstruction>
+  RoyaltyInstruction,
+) as beet.FixedSizeBeet<RoyaltyInstruction, RoyaltyInstruction>;

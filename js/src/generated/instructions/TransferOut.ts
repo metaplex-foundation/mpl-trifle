@@ -5,9 +5,9 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
-import * as web3 from '@solana/web3.js'
-import { TransferOutArgs, transferOutArgsBeet } from '../types/TransferOutArgs'
+import * as beet from '@metaplex-foundation/beet';
+import * as web3 from '@solana/web3.js';
+import { TransferOutArgs, transferOutArgsBeet } from '../types/TransferOutArgs';
 
 /**
  * @category Instructions
@@ -15,8 +15,8 @@ import { TransferOutArgs, transferOutArgsBeet } from '../types/TransferOutArgs'
  * @category generated
  */
 export type TransferOutInstructionArgs = {
-  transferOutArgs: TransferOutArgs
-}
+  transferOutArgs: TransferOutArgs;
+};
 /**
  * @category Instructions
  * @category TransferOut
@@ -24,15 +24,15 @@ export type TransferOutInstructionArgs = {
  */
 export const TransferOutStruct = new beet.FixableBeetArgsStruct<
   TransferOutInstructionArgs & {
-    instructionDiscriminator: number
+    instructionDiscriminator: number;
   }
 >(
   [
     ['instructionDiscriminator', beet.u8],
     ['transferOutArgs', transferOutArgsBeet],
   ],
-  'TransferOutInstructionArgs'
-)
+  'TransferOutInstructionArgs',
+);
 /**
  * Accounts required by the _TransferOut_ instruction
  *
@@ -58,27 +58,27 @@ export const TransferOutStruct = new beet.FixableBeetArgsStruct<
  * @category generated
  */
 export type TransferOutInstructionAccounts = {
-  trifleAccount: web3.PublicKey
-  constraintModel: web3.PublicKey
-  escrowAccount: web3.PublicKey
-  escrowTokenAccount: web3.PublicKey
-  escrowMint: web3.PublicKey
-  escrowMetadata: web3.PublicKey
-  escrowEdition?: web3.PublicKey
-  payer: web3.PublicKey
-  trifleAuthority: web3.PublicKey
-  attributeMint: web3.PublicKey
-  attributeSrcTokenAccount: web3.PublicKey
-  attributeDstTokenAccount: web3.PublicKey
-  attributeMetadata: web3.PublicKey
-  systemProgram?: web3.PublicKey
-  splAssociatedTokenAccount: web3.PublicKey
-  splToken: web3.PublicKey
-  tokenMetadataProgram: web3.PublicKey
-  sysvarInstructions: web3.PublicKey
-}
+  trifleAccount: web3.PublicKey;
+  constraintModel: web3.PublicKey;
+  escrowAccount: web3.PublicKey;
+  escrowTokenAccount: web3.PublicKey;
+  escrowMint: web3.PublicKey;
+  escrowMetadata: web3.PublicKey;
+  escrowEdition?: web3.PublicKey;
+  payer: web3.PublicKey;
+  trifleAuthority: web3.PublicKey;
+  attributeMint: web3.PublicKey;
+  attributeSrcTokenAccount: web3.PublicKey;
+  attributeDstTokenAccount: web3.PublicKey;
+  attributeMetadata: web3.PublicKey;
+  systemProgram?: web3.PublicKey;
+  splAssociatedTokenAccount: web3.PublicKey;
+  splToken: web3.PublicKey;
+  tokenMetadataProgram: web3.PublicKey;
+  sysvarInstructions: web3.PublicKey;
+};
 
-export const transferOutInstructionDiscriminator = 3
+export const transferOutInstructionDiscriminator = 3;
 
 /**
  * Creates a _TransferOut_ instruction.
@@ -96,12 +96,12 @@ export const transferOutInstructionDiscriminator = 3
 export function createTransferOutInstruction(
   accounts: TransferOutInstructionAccounts,
   args: TransferOutInstructionArgs,
-  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX')
+  programId = new web3.PublicKey('trifMWutwBxkSuatmpPVnEe7NoE3BJKgjVi8sSyoXWX'),
 ) {
   const [data] = TransferOutStruct.serialize({
     instructionDiscriminator: transferOutInstructionDiscriminator,
     ...args,
-  })
+  });
   const keys: web3.AccountMeta[] = [
     {
       pubkey: accounts.trifleAccount,
@@ -193,12 +193,12 @@ export function createTransferOutInstruction(
       isWritable: false,
       isSigner: false,
     },
-  ]
+  ];
 
   const ix = new web3.TransactionInstruction({
     programId,
     keys,
     data,
-  })
-  return ix
+  });
+  return ix;
 }
