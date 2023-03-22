@@ -57,8 +57,6 @@ pub fn transfer_in(
     assert_owned_by(attribute_metadata_info, token_metadata_program_info.key)?;
 
     let escrow_token_account_data = Account::unpack(&escrow_token_info.data.borrow())?;
-    // Only the parent NFT holder can transfer in
-    assert_holder(&escrow_token_account_data, payer_info)?;
 
     let attribute_metadata: Metadata = Metadata::from_account_info(attribute_metadata_info)?;
     let mut escrow_seeds = vec![
@@ -142,6 +140,15 @@ pub fn transfer_in(
     }
 
     let transfer_effects = TransferEffects::from(constraint.transfer_effects);
+
+    // Only the parent NFT holder can transfer in unless the auth_transfer_in transfer effect is enabled.
+    let is_holder = assert_holder(&escrow_token_account_data, payer_info).is_ok();
+
+    if !is_holder && transfer_effects.auth_transfer_in() {
+        assert_holder(&escrow_token_account_data, trifle_authority_info)?;
+    } else if !is_holder && !transfer_effects.auth_transfer_in() {
+        return Err(TrifleError::MustBeHolder.into());
+    }
 
     // check fuse options
     if transfer_effects.burn() && transfer_effects.freeze() {
