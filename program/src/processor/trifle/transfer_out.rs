@@ -90,8 +90,6 @@ pub fn transfer_out(
     // assert_signer(trifle_authority_info)?;
 
     let escrow_token_account_data = Account::unpack(&escrow_token_info.data.borrow())?;
-    // Only the parent NFT holder can transfer out
-    assert_holder(&escrow_token_account_data, payer_info)?;
 
     // Transfer the token out of the escrow
     let transfer_ix = mpl_token_metadata::escrow::transfer_out_of_escrow(
@@ -134,6 +132,22 @@ pub fn transfer_out(
         EscrowConstraintModel::try_from_slice(&constraint_model_info.data.borrow())
             .map_err(|_| TrifleError::InvalidEscrowConstraintModel)?;
 
+    let constraint = constraint_model
+        .constraints
+        .get(&args.slot)
+        .ok_or(TrifleError::InvalidEscrowConstraint)?;
+
+    let transfer_effects = TransferEffects::from(constraint.transfer_effects);
+
+    // Only the parent NFT holder can transfer out unless the auth_transfer_out transfer effect is enabled.
+    let is_holder = assert_holder(&escrow_token_account_data, payer_info).is_ok();
+
+    if !is_holder && transfer_effects.auth_transfer_out() {
+        assert_holder(&escrow_token_account_data, trifle_authority_info)?;
+    } else if !is_holder && !transfer_effects.auth_transfer_out() {
+        return Err(TrifleError::MustBeHolder.into());
+    }
+
     // collect fees and save the model.
     pay_royalties(
         RoyaltyInstruction::TransferOut,
@@ -174,43 +188,30 @@ pub fn transfer_out(
         serialized_data.len(),
     );
 
-    if trifle.is_empty() {
-        let constraint_model =
-            EscrowConstraintModel::try_from_slice(&constraint_model_info.data.borrow())
-                .map_err(|_| TrifleError::InvalidEscrowConstraintModel)?;
+    if trifle.is_empty() && transfer_effects.freeze_parent() {
+        let escrow_token = Account::unpack(&escrow_token_info.data.borrow())?;
+        if escrow_token.is_frozen() {
+            msg!("Last token transferred out of escrow. Unfreezing the escrow token account.");
 
-        let constraint = constraint_model
-            .constraints
-            .get(&args.slot)
-            .ok_or(TrifleError::InvalidEscrowConstraint)?;
+            let thaw_ix = mpl_token_metadata::instruction::thaw_delegated_account(
+                mpl_token_metadata::id(),
+                *trifle_info.key,
+                *escrow_token_info.key,
+                *escrow_edition_info.key,
+                *escrow_mint_info.key,
+            );
 
-        let transfer_effects = TransferEffects::from(constraint.transfer_effects);
-
-        if transfer_effects.freeze_parent() {
-            let escrow_token = Account::unpack(&escrow_token_info.data.borrow())?;
-            if escrow_token.is_frozen() {
-                msg!("Last token transferred out of escrow. Unfreezing the escrow token account.");
-
-                let thaw_ix = mpl_token_metadata::instruction::thaw_delegated_account(
-                    mpl_token_metadata::id(),
-                    *trifle_info.key,
-                    *escrow_token_info.key,
-                    *escrow_edition_info.key,
-                    *escrow_mint_info.key,
-                );
-
-                invoke_signed(
-                    &thaw_ix,
-                    &[
-                        trifle_info.to_owned(),
-                        escrow_token_info.to_owned(),
-                        escrow_edition_info.to_owned(),
-                        escrow_mint_info.to_owned(),
-                        _spl_token_program_info.to_owned(),
-                    ],
-                    &[trifle_signer_seeds],
-                )?;
-            }
+            invoke_signed(
+                &thaw_ix,
+                &[
+                    trifle_info.to_owned(),
+                    escrow_token_info.to_owned(),
+                    escrow_edition_info.to_owned(),
+                    escrow_mint_info.to_owned(),
+                    _spl_token_program_info.to_owned(),
+                ],
+                &[trifle_signer_seeds],
+            )?;
         }
     }
 
