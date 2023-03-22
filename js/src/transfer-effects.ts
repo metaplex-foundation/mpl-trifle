@@ -44,6 +44,24 @@ export class TransferEffects {
     return this;
   }
 
+  authTransferIn(): boolean {
+    return this._bn.testn(4);
+  }
+
+  withAuthTransferIn(bool = true): this {
+    this._bn.setn(4, bool);
+    return this;
+  }
+
+  authTransferOut(): boolean {
+    return this._bn.testn(5);
+  }
+
+  withAuthTransferOut(bool = true): this {
+    this._bn.setn(5, bool);
+    return this;
+  }
+
   toNumber(): number {
     return this._bn.toNumber();
   }

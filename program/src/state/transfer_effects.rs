@@ -1,4 +1,4 @@
-use modular_bitfield::{bitfield, specifiers::B12};
+use modular_bitfield::{bitfield, specifiers::B10};
 
 #[bitfield(bits = 16)]
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -7,7 +7,9 @@ pub struct TransferEffects {
     pub burn: bool,
     pub freeze: bool,
     pub freeze_parent: bool,
-    pub empty_bytes: B12,
+    pub auth_transfer_in: bool,
+    pub auth_transfer_out: bool,
+    pub empty_bytes: B10,
 }
 
 impl Default for TransferEffects {
