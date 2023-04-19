@@ -3,7 +3,7 @@ use mpl_token_metadata::{
     state::{EscrowAuthority, Metadata, TokenMetadataAccount, ESCROW_POSTFIX, PREFIX},
     utils::{assert_derivation, assert_owned_by, is_print_edition},
 };
-use mpl_utils::assert_signer;
+use mpl_utils::{assert_signer, token::assert_holder};
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
@@ -24,7 +24,7 @@ use crate::{
         trifle::Trifle,
         SolanaAccount, TRIFLE_SEED,
     },
-    util::{assert_holder, pay_royalties, resize_or_reallocate_account_raw},
+    util::{pay_royalties, resize_or_reallocate_account_raw},
 };
 
 pub fn transfer_in(
@@ -53,10 +53,16 @@ pub fn transfer_in(
     let _associated_token_account_program_info = next_account_info(account_info_iter)?;
     let token_metadata_program_info = next_account_info(account_info_iter)?;
 
+    // Account validation
     assert_signer(payer_info)?;
     assert_owned_by(attribute_metadata_info, token_metadata_program_info.key)?;
+    assert_owned_by(escrow_token_info, token_program_info.key)?;
+    assert_owned_by(escrow_mint_info, token_program_info.key)?;
 
     let escrow_token_account_data = Account::unpack(&escrow_token_info.data.borrow())?;
+
+    // Account relationships validation
+    assert!(escrow_token_account_data.mint == *escrow_mint_info.key);
 
     let attribute_metadata: Metadata = Metadata::from_account_info(attribute_metadata_info)?;
     let mut escrow_seeds = vec![
@@ -142,10 +148,21 @@ pub fn transfer_in(
     let transfer_effects = TransferEffects::from(constraint.transfer_effects);
 
     // Only the parent NFT holder can transfer in unless the auth_transfer_in transfer effect is enabled.
-    let is_holder = assert_holder(&escrow_token_account_data, payer_info).is_ok();
+    let is_holder = assert_holder(
+        escrow_token_account_data,
+        payer_info,
+        escrow_mint_info,
+        TrifleError::MustBeHolder,
+    )
+    .is_ok();
 
     if !is_holder && transfer_effects.auth_transfer_in() {
-        assert_holder(&escrow_token_account_data, trifle_authority_info)?;
+        assert_holder(
+            escrow_token_account_data,
+            trifle_authority_info,
+            escrow_mint_info,
+            TrifleError::MustBeHolder,
+        )?;
     } else if !is_holder && !transfer_effects.auth_transfer_in() {
         return Err(TrifleError::MustBeHolder.into());
     }

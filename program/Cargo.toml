@@ -23,7 +23,7 @@ spl-associated-token-account = { version = "~1.1.2", features = [
     "no-entrypoint",
 ] }
 thiserror = "1.0.35"
-mpl-utils = "0.1.0"
+mpl-utils = { path = "/home/cilantro/Metaplex/metaplex-program-library/core/rust/utils" }
 mpl-token-metadata = { version = "1.8.5", features = ["no-entrypoint"] }
 num-derive = "0.3.3"
 num-traits = "0.2.14"
