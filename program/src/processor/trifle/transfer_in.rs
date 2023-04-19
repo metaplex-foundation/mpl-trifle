@@ -86,14 +86,6 @@ pub fn transfer_in(
     assert!(attribute_src.delegate.is_none());
     assert!(attribute_src.amount >= args.amount);
 
-    // TODO: perform assertions on attribute_dst if it exists.
-    // let attribute_dst =
-    //     spl_token::state::Account::unpack(&attribute_dst_token_account.data.borrow())?;
-    // msg!("past second unpack");
-    // assert!(attribute_dst.mint == *attribute_mint.key);
-    // assert!(attribute_dst.delegate.is_none());
-    // msg!("past explicit assertions.");
-
     let trifle_seeds = &[
         TRIFLE_SEED.as_bytes(),
         escrow_mint_info.key.as_ref(),
@@ -199,27 +191,35 @@ pub fn transfer_in(
                     token_program_info.clone(),
                 ],
             )?;
+        } else {
+            // If an existing token account is passed in, we need to validate it.
+            let attribute_dst =
+                spl_token::state::Account::unpack(&attribute_dst_token_info.data.borrow())?;
 
-            // Transfer the token from the current owner into the escrow.
-            let transfer_ix = spl_token::instruction::transfer(
-                &spl_token::id(),
-                attribute_src_token_info.key,
-                attribute_dst_token_info.key,
-                payer_info.key,
-                &[payer_info.key],
-                args.amount,
-            )?;
-
-            invoke(
-                &transfer_ix,
-                &[
-                    attribute_src_token_info.clone(),
-                    attribute_dst_token_info.clone(),
-                    payer_info.clone(),
-                    token_program_info.clone(),
-                ],
-            )?;
+            assert!(attribute_dst.mint == *attribute_mint_info.key);
+            assert!(attribute_dst.delegate.is_none());
+            assert!(attribute_dst.owner == *escrow_info.key);
         }
+
+        // Transfer the token from the current owner into the escrow.
+        let transfer_ix = spl_token::instruction::transfer(
+            &spl_token::id(),
+            attribute_src_token_info.key,
+            attribute_dst_token_info.key,
+            payer_info.key,
+            &[payer_info.key],
+            args.amount,
+        )?;
+
+        invoke(
+            &transfer_ix,
+            &[
+                attribute_src_token_info.clone(),
+                attribute_dst_token_info.clone(),
+                payer_info.clone(),
+                token_program_info.clone(),
+            ],
+        )?;
     } else {
         let attribute_mint = Mint::unpack(&attribute_mint_info.data.borrow())?;
         if is_print_edition(
@@ -264,7 +264,6 @@ pub fn transfer_in(
             accounts.push(attribute_collection_metadata_info.clone());
         }
 
-        // invoke_signed(&burn_ix, &accounts, &[trifle_signer_seeds])?;
         invoke(&burn_ix, &accounts)?;
     }
 
