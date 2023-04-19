@@ -64,9 +64,11 @@ pub fn transfer_in(
     assert_owned_by(escrow_mint_info, token_program_info.key)?;
 
     let escrow_token_account_data = Account::unpack(&escrow_token_info.data.borrow())?;
+    let mut trifle = Trifle::from_account_info(trifle_info)?;
 
     // Account relationships validation
     assert!(escrow_token_account_data.mint == *escrow_mint_info.key);
+    assert!(trifle.escrow_constraint_model == *constraint_model_info.key);
 
     let attribute_metadata: Metadata = Metadata::from_account_info(attribute_metadata_info)?;
     let mut escrow_seeds = vec![
@@ -301,8 +303,6 @@ pub fn transfer_in(
     }
 
     if transfer_effects.track() {
-        let mut trifle = Trifle::from_account_info(trifle_info)?;
-
         trifle.try_add(constraint, args.slot, *attribute_mint_info.key, args.amount)?;
 
         let serialized_data = trifle
