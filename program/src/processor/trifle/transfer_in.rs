@@ -113,6 +113,7 @@ pub fn transfer_in(
         let collection_key = attribute_metadata
             .collection
             .clone()
+            .filter(|c| c.verified)
             .ok_or(TrifleError::InvalidCollection)?
             .key;
 
