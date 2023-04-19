@@ -53,6 +53,10 @@ pub fn transfer_in(
     let _associated_token_account_program_info = next_account_info(account_info_iter)?;
     let token_metadata_program_info = next_account_info(account_info_iter)?;
 
+    if token_metadata_program_info.key != &mpl_token_metadata::ID {
+        return Err(solana_program::program_error::ProgramError::IncorrectProgramId);
+    }
+
     // Account validation
     assert_signer(payer_info)?;
     assert_owned_by(attribute_metadata_info, token_metadata_program_info.key)?;
