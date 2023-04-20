@@ -1926,7 +1926,7 @@ dependencies = [
  "borsh",
  "mpl-token-auth-rules",
  "mpl-token-metadata-context-derive",
- "mpl-utils 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mpl-utils 0.1.0",
  "num-derive",
  "num-traits",
  "shank 0.0.11",
@@ -1953,7 +1953,7 @@ dependencies = [
  "borsh",
  "modular-bitfield",
  "mpl-token-metadata",
- "mpl-utils 0.1.0",
+ "mpl-utils 0.2.0",
  "num-derive",
  "num-traits",
  "shank 0.0.12",
@@ -1968,6 +1968,8 @@ dependencies = [
 [[package]]
 name = "mpl-utils"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7fc48e64c50dba956acb46eec86d6968ef0401ef37031426da479f1f2b592066"
 dependencies = [
  "arrayref",
  "borsh",
@@ -1977,9 +1979,9 @@ dependencies = [
 
 [[package]]
 name = "mpl-utils"
-version = "0.1.0"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7fc48e64c50dba956acb46eec86d6968ef0401ef37031426da479f1f2b592066"
+checksum = "822133b6cba8f9a43e5e0e189813be63dd795858f54155c729833be472ffdb51"
 dependencies = [
  "arrayref",
  "borsh",

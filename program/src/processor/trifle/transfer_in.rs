@@ -59,9 +59,9 @@ pub fn transfer_in(
 
     // Account validation
     assert_signer(payer_info)?;
-    assert_owned_by(attribute_metadata_info, token_metadata_program_info.key)?;
-    assert_owned_by(escrow_token_info, token_program_info.key)?;
-    assert_owned_by(escrow_mint_info, token_program_info.key)?;
+    assert_owned_by(attribute_metadata_info, mpl_token_metadata::ID)?;
+    assert_owned_by(escrow_token_info, spl_token::ID)?;
+    assert_owned_by(escrow_mint_info, spl_token::ID)?;
 
     let escrow_token_account_data = Account::unpack(&escrow_token_info.data.borrow())?;
     let mut trifle = Trifle::from_account_info(trifle_info)?;
