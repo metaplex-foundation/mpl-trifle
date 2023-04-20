@@ -73,8 +73,9 @@ pub struct EscrowConstraint {
 }
 
 #[repr(C)]
-#[derive(BorshSerialize, BorshDeserialize, PartialEq, Eq, Debug, Clone)]
+#[derive(BorshSerialize, BorshDeserialize, PartialEq, Eq, Debug, Clone, Default)]
 pub enum EscrowConstraintType {
+    #[default]
     None,
     Collection(Pubkey),
     Tokens(HashSet<Pubkey>),
@@ -115,12 +116,6 @@ impl EscrowConstraintType {
                 }
             }
         }
-    }
-}
-
-impl Default for EscrowConstraintType {
-    fn default() -> Self {
-        EscrowConstraintType::None
     }
 }
 
