@@ -30,7 +30,7 @@ pub fn withdraw_royalties(
         AccountMeta::new_readonly(*update_authority, false),
         AccountMeta::new_readonly(*destination, false),
         AccountMeta::new_readonly(
-            Pubkey::from_str("BHkk3RTd4Ue6JnqXpa9QHTXbn575ycR8hxVmYx4E254k").unwrap(),
+            Pubkey::from_str("2Hm4qr8xLwQWoBErjQWp4sTND4p2FqyDmppxQyrkTV99").unwrap(),
             false,
         ),
         AccountMeta::new_readonly(solana_program::system_program::id(), false),
