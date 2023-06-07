@@ -1,9 +1,8 @@
 use borsh::{BorshDeserialize, BorshSerialize};
-use mpl_token_metadata::{
-    error::MetadataError,
-    utils::{assert_derivation, assert_owned_by},
+use mpl_token_metadata::error::MetadataError;
+use mpl_utils::{
+    assert_derivation, assert_owned_by, assert_signer, create_or_allocate_account_raw,
 };
-use mpl_utils::{assert_signer, create_or_allocate_account_raw};
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
@@ -47,18 +46,35 @@ pub fn create_trifle_account(program_id: &Pubkey, accounts: &[AccountInfo]) -> P
             mint_info.key.as_ref(),
             trifle_authority_info.key.as_ref(),
         ],
+        TrifleError::DerivedKeyInvalid,
     )?;
 
     assert_signer(payer_info)?;
     assert_signer(trifle_authority_info)?;
-    assert_owned_by(escrow_info, system_program_info.key)?;
+    assert_owned_by(
+        escrow_info,
+        system_program_info.key,
+        TrifleError::IncorrectOwner,
+    )?;
     if !escrow_info.data_is_empty() {
         return Err(MetadataError::AlreadyInitialized.into());
     }
-    assert_owned_by(escrow_constraint_model_info, program_id)?;
-    assert_owned_by(metadata_info, &mpl_token_metadata::ID)?;
-    assert_owned_by(mint_info, &spl_token::id())?;
-    assert_owned_by(token_account_info, &spl_token::id())?;
+    assert_owned_by(
+        escrow_constraint_model_info,
+        program_id,
+        TrifleError::IncorrectOwner,
+    )?;
+    assert_owned_by(
+        metadata_info,
+        &mpl_token_metadata::ID,
+        TrifleError::IncorrectOwner,
+    )?;
+    assert_owned_by(mint_info, &spl_token::id(), TrifleError::IncorrectOwner)?;
+    assert_owned_by(
+        token_account_info,
+        &spl_token::id(),
+        TrifleError::IncorrectOwner,
+    )?;
 
     let escrow_constraint_model_key =
         Key::try_from_slice(&escrow_constraint_model_info.data.borrow()[0..1])?;

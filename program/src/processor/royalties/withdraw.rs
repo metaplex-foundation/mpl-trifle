@@ -1,6 +1,5 @@
 use borsh::{BorshDeserialize, BorshSerialize};
-use mpl_token_metadata::{assertions::assert_keys_equal, utils::assert_derivation};
-use mpl_utils::assert_signer;
+use mpl_utils::{assert_derivation, assert_signer};
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
@@ -35,10 +34,9 @@ pub fn withdraw_royalties(
     let _sysvar_instruction_info = next_account_info(accounts_iter)?;
 
     assert_signer(payer_info)?;
-    assert_keys_equal(
-        new_dest_info.key,
-        &pubkey!("2Hm4qr8xLwQWoBErjQWp4sTND4p2FqyDmppxQyrkTV99"),
-    )?;
+    if new_dest_info.key != &pubkey!("2Hm4qr8xLwQWoBErjQWp4sTND4p2FqyDmppxQyrkTV99") {
+        return Err(TrifleError::KeyMismatch.into());
+    };
 
     let bump = assert_derivation(
         program_id,
@@ -48,6 +46,7 @@ pub fn withdraw_royalties(
             update_authority_info.key.as_ref(),
             args.name.as_bytes(),
         ],
+        TrifleError::DerivedKeyInvalid,
     )?;
 
     let constraint_model_seeds = &[

@@ -10,8 +10,7 @@ pub use add_none_constraint::*;
 pub use add_tokens_constraint::*;
 use borsh::{BorshDeserialize, BorshSerialize};
 pub use create::*;
-use mpl_token_metadata::utils::{assert_derivation, assert_owned_by};
-use mpl_utils::assert_signer;
+use mpl_utils::{assert_derivation, assert_owned_by, assert_signer};
 pub use remove_constraint::*;
 
 use solana_program::{
@@ -44,7 +43,11 @@ fn add_constraint_to_escrow_constraint_model(
     let update_authority_info = next_account_info(account_info_iter)?;
     let system_program_info = next_account_info(account_info_iter)?;
 
-    assert_owned_by(escrow_constraint_model_info, program_id)?;
+    assert_owned_by(
+        escrow_constraint_model_info,
+        program_id,
+        TrifleError::IncorrectOwner,
+    )?;
     assert_signer(payer_info)?;
     assert_signer(update_authority_info)?;
 
@@ -63,6 +66,7 @@ fn add_constraint_to_escrow_constraint_model(
             payer_info.key.as_ref(),
             escrow_constraint_model.name.as_bytes(),
         ],
+        TrifleError::DerivedKeyInvalid,
     )?;
 
     if escrow_constraint_model

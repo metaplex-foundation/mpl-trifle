@@ -1,8 +1,6 @@
-use mpl_token_metadata::{
-    state::{Metadata, TokenMetadataAccount},
-    utils::assert_owned_by,
-};
+use mpl_token_metadata::state::{Metadata, TokenMetadataAccount};
 
+use mpl_utils::assert_owned_by;
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
@@ -33,8 +31,16 @@ pub fn add_collection_constraint_to_escrow_constraint_model(
     accounts_iter.next(); // skip the system program
     let sysvar_instruction_info = next_account_info(accounts_iter)?;
 
-    assert_owned_by(collection_mint_info, &spl_token::id())?;
-    assert_owned_by(collection_metadata_info, &mpl_token_metadata::id())?;
+    assert_owned_by(
+        collection_mint_info,
+        &spl_token::id(),
+        TrifleError::IncorrectOwner,
+    )?;
+    assert_owned_by(
+        collection_metadata_info,
+        &mpl_token_metadata::id(),
+        TrifleError::IncorrectOwner,
+    )?;
 
     Metadata::from_account_info(collection_metadata_info)
         .map_err(|_| TrifleError::InvalidCollectionMetadata)?;

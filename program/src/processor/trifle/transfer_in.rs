@@ -1,9 +1,9 @@
 use borsh::{BorshDeserialize, BorshSerialize};
 use mpl_token_metadata::{
     state::{EscrowAuthority, Metadata, TokenMetadataAccount, ESCROW_POSTFIX, PREFIX},
-    utils::{assert_derivation, assert_owned_by, is_print_edition},
+    utils::is_print_edition,
 };
-use mpl_utils::{assert_signer, token::assert_holder};
+use mpl_utils::{assert_derivation, assert_owned_by, assert_signer, token::assert_holder};
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
@@ -59,9 +59,21 @@ pub fn transfer_in(
 
     // Account validation
     assert_signer(payer_info)?;
-    assert_owned_by(attribute_metadata_info, &mpl_token_metadata::ID)?;
-    assert_owned_by(escrow_token_info, &spl_token::ID)?;
-    assert_owned_by(escrow_mint_info, &spl_token::ID)?;
+    assert_owned_by(
+        attribute_metadata_info,
+        &mpl_token_metadata::ID,
+        TrifleError::IncorrectOwner,
+    )?;
+    assert_owned_by(
+        escrow_token_info,
+        &spl_token::ID,
+        TrifleError::IncorrectOwner,
+    )?;
+    assert_owned_by(
+        escrow_mint_info,
+        &spl_token::ID,
+        TrifleError::IncorrectOwner,
+    )?;
 
     let escrow_token_account_data = Account::unpack(&escrow_token_info.data.borrow())?;
     let mut trifle = Trifle::from_account_info(trifle_info)?;
@@ -84,7 +96,12 @@ pub fn transfer_in(
 
     escrow_seeds.push(ESCROW_POSTFIX.as_bytes());
 
-    assert_derivation(token_metadata_program_info.key, escrow_info, &escrow_seeds)?;
+    assert_derivation(
+        token_metadata_program_info.key,
+        escrow_info,
+        &escrow_seeds,
+        TrifleError::DerivedKeyInvalid,
+    )?;
 
     // Deserialize the token accounts and perform checks.
     let attribute_src = Account::unpack(&attribute_src_token_info.data.borrow())?;
@@ -98,7 +115,12 @@ pub fn transfer_in(
         trifle_authority_info.key.as_ref(),
     ];
 
-    let trifle_bump_seed = assert_derivation(program_id, trifle_info, trifle_seeds)?;
+    let trifle_bump_seed = assert_derivation(
+        program_id,
+        trifle_info,
+        trifle_seeds,
+        TrifleError::DerivedKeyInvalid,
+    )?;
     let trifle_signer_seeds = &[
         TRIFLE_SEED.as_bytes(),
         escrow_mint_info.key.as_ref(),
