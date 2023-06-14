@@ -3,6 +3,7 @@ target/
 .DS_Store
 **/.DS_Store
 .anchor/
+.amman/
 .crates/
 
 node_modules/
