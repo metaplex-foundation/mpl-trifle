@@ -73,8 +73,9 @@ pub struct EscrowConstraint {
 }
 
 #[repr(C)]
-#[derive(BorshSerialize, BorshDeserialize, PartialEq, Eq, Debug, Clone)]
+#[derive(BorshSerialize, BorshDeserialize, PartialEq, Eq, Debug, Clone, Default)]
 pub enum EscrowConstraintType {
+    #[default]
     None,
     Collection(Pubkey),
     Tokens(HashSet<Pubkey>),
@@ -118,15 +119,9 @@ impl EscrowConstraintType {
     }
 }
 
-impl Default for EscrowConstraintType {
-    fn default() -> Self {
-        EscrowConstraintType::None
-    }
-}
-
 // Protocol fees for Trifle
-const TRIFLE_FEE: u64 = 20_000_000;
-const MODEL_FEE: u64 = 100_000_000;
+const TRIFLE_FEE: u64 = 2_000_000;
+const MODEL_FEE: u64 = 10_000_000;
 
 pub fn fees() -> HashMap<RoyaltyInstruction, u64> {
     let mut m = HashMap::new();

@@ -3,7 +3,7 @@ use mpl_token_metadata::{
     state::{EscrowAuthority, Metadata, TokenMetadataAccount, ESCROW_POSTFIX, PREFIX},
     utils::{assert_derivation, assert_owned_by, is_print_edition},
 };
-use mpl_utils::assert_signer;
+use mpl_utils::{assert_signer, token::assert_holder};
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
@@ -24,7 +24,7 @@ use crate::{
         trifle::Trifle,
         SolanaAccount, TRIFLE_SEED,
     },
-    util::{assert_holder, pay_royalties, resize_or_reallocate_account_raw},
+    util::{pay_royalties, resize_or_reallocate_account_raw},
 };
 
 pub fn transfer_in(
@@ -53,10 +53,22 @@ pub fn transfer_in(
     let _associated_token_account_program_info = next_account_info(account_info_iter)?;
     let token_metadata_program_info = next_account_info(account_info_iter)?;
 
+    if token_metadata_program_info.key != &mpl_token_metadata::ID {
+        return Err(solana_program::program_error::ProgramError::IncorrectProgramId);
+    }
+
+    // Account validation
     assert_signer(payer_info)?;
-    assert_owned_by(attribute_metadata_info, token_metadata_program_info.key)?;
+    assert_owned_by(attribute_metadata_info, &mpl_token_metadata::ID)?;
+    assert_owned_by(escrow_token_info, &spl_token::ID)?;
+    assert_owned_by(escrow_mint_info, &spl_token::ID)?;
 
     let escrow_token_account_data = Account::unpack(&escrow_token_info.data.borrow())?;
+    let mut trifle = Trifle::from_account_info(trifle_info)?;
+
+    // Account relationships validation
+    assert!(escrow_token_account_data.mint == *escrow_mint_info.key);
+    assert!(trifle.escrow_constraint_model == *constraint_model_info.key);
 
     let attribute_metadata: Metadata = Metadata::from_account_info(attribute_metadata_info)?;
     let mut escrow_seeds = vec![
@@ -79,14 +91,6 @@ pub fn transfer_in(
     assert!(attribute_src.mint == *attribute_mint_info.key);
     assert!(attribute_src.delegate.is_none());
     assert!(attribute_src.amount >= args.amount);
-
-    // TODO: perform assertions on attribute_dst if it exists.
-    // let attribute_dst =
-    //     spl_token::state::Account::unpack(&attribute_dst_token_account.data.borrow())?;
-    // msg!("past second unpack");
-    // assert!(attribute_dst.mint == *attribute_mint.key);
-    // assert!(attribute_dst.delegate.is_none());
-    // msg!("past explicit assertions.");
 
     let trifle_seeds = &[
         TRIFLE_SEED.as_bytes(),
@@ -115,6 +119,7 @@ pub fn transfer_in(
         let collection_key = attribute_metadata
             .collection
             .clone()
+            .filter(|c| c.verified)
             .ok_or(TrifleError::InvalidCollection)?
             .key;
 
@@ -142,10 +147,21 @@ pub fn transfer_in(
     let transfer_effects = TransferEffects::from(constraint.transfer_effects);
 
     // Only the parent NFT holder can transfer in unless the auth_transfer_in transfer effect is enabled.
-    let is_holder = assert_holder(&escrow_token_account_data, payer_info).is_ok();
+    let is_holder = assert_holder(
+        escrow_token_account_data,
+        payer_info,
+        escrow_mint_info,
+        TrifleError::MustBeHolder,
+    )
+    .is_ok();
 
     if !is_holder && transfer_effects.auth_transfer_in() {
-        assert_holder(&escrow_token_account_data, trifle_authority_info)?;
+        assert_holder(
+            escrow_token_account_data,
+            trifle_authority_info,
+            escrow_mint_info,
+            TrifleError::MustBeHolder,
+        )?;
     } else if !is_holder && !transfer_effects.auth_transfer_in() {
         return Err(TrifleError::MustBeHolder.into());
     }
@@ -182,27 +198,35 @@ pub fn transfer_in(
                     token_program_info.clone(),
                 ],
             )?;
+        } else {
+            // If an existing token account is passed in, we need to validate it.
+            let attribute_dst =
+                spl_token::state::Account::unpack(&attribute_dst_token_info.data.borrow())?;
 
-            // Transfer the token from the current owner into the escrow.
-            let transfer_ix = spl_token::instruction::transfer(
-                &spl_token::id(),
-                attribute_src_token_info.key,
-                attribute_dst_token_info.key,
-                payer_info.key,
-                &[payer_info.key],
-                args.amount,
-            )?;
-
-            invoke(
-                &transfer_ix,
-                &[
-                    attribute_src_token_info.clone(),
-                    attribute_dst_token_info.clone(),
-                    payer_info.clone(),
-                    token_program_info.clone(),
-                ],
-            )?;
+            assert!(attribute_dst.mint == *attribute_mint_info.key);
+            assert!(attribute_dst.delegate.is_none());
+            assert!(attribute_dst.owner == *escrow_info.key);
         }
+
+        // Transfer the token from the current owner into the escrow.
+        let transfer_ix = spl_token::instruction::transfer(
+            &spl_token::id(),
+            attribute_src_token_info.key,
+            attribute_dst_token_info.key,
+            payer_info.key,
+            &[payer_info.key],
+            args.amount,
+        )?;
+
+        invoke(
+            &transfer_ix,
+            &[
+                attribute_src_token_info.clone(),
+                attribute_dst_token_info.clone(),
+                payer_info.clone(),
+                token_program_info.clone(),
+            ],
+        )?;
     } else {
         let attribute_mint = Mint::unpack(&attribute_mint_info.data.borrow())?;
         if is_print_edition(
@@ -241,13 +265,13 @@ pub fn transfer_in(
             attribute_src_token_info.clone(),
             attribute_edition_info.clone(),
             token_program_info.clone(),
+            token_metadata_program_info.clone(),
         ];
 
         if maybe_collection_metadata_pubkey.is_some() {
             accounts.push(attribute_collection_metadata_info.clone());
         }
 
-        // invoke_signed(&burn_ix, &accounts, &[trifle_signer_seeds])?;
         invoke(&burn_ix, &accounts)?;
     }
 
@@ -280,8 +304,6 @@ pub fn transfer_in(
     }
 
     if transfer_effects.track() {
-        let mut trifle = Trifle::from_account_info(trifle_info)?;
-
         trifle.try_add(constraint, args.slot, *attribute_mint_info.key, args.amount)?;
 
         let serialized_data = trifle

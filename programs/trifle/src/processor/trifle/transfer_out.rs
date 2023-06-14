@@ -53,6 +53,10 @@ pub fn transfer_out(
     let token_metadata_program_info = next_account_info(account_info_iter)?;
     let sysvar_ix_account_info = next_account_info(account_info_iter)?;
 
+    if token_metadata_program_info.key != &mpl_token_metadata::ID {
+        return Err(solana_program::program_error::ProgramError::IncorrectProgramId);
+    }
+
     assert_owned_by(attribute_metadata_info, &mpl_token_metadata::id())?;
     let _attribute_metadata: Metadata = Metadata::from_account_info(attribute_metadata_info)?;
 

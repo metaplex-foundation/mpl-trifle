@@ -37,7 +37,7 @@ pub fn withdraw_royalties(
     assert_signer(payer_info)?;
     assert_keys_equal(
         new_dest_info.key,
-        &pubkey!("BHkk3RTd4Ue6JnqXpa9QHTXbn575ycR8hxVmYx4E254k"),
+        &pubkey!("2Hm4qr8xLwQWoBErjQWp4sTND4p2FqyDmppxQyrkTV99"),
     )?;
 
     let bump = assert_derivation(

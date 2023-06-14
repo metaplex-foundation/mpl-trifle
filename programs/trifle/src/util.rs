@@ -70,7 +70,7 @@ pub fn pay_royalties<'a>(
 
 // Check for matches against Create Constraint Model or any of the Add Constraint instructions.
 pub fn is_creation_instruction(hash: u8) -> bool {
-    matches!(hash, 0 | 4 | 5 | 6)
+    matches!(hash, 0 | 4 | 5 | 6 | 10)
 }
 
 pub fn assert_holder(

@@ -1,0 +1,7 @@
+[workspace]
+members=[
+  "programs/trifle",
+]
+
+[profile.release]
+overflow-checks = true
