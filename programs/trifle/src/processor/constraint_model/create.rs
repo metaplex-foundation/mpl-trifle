@@ -1,6 +1,5 @@
 use borsh::BorshSerialize;
-use mpl_token_metadata::utils::assert_derivation;
-use mpl_utils::create_or_allocate_account_raw;
+use mpl_utils::{assert_derivation, create_or_allocate_account_raw};
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
@@ -47,6 +46,7 @@ pub fn create_escrow_constraints_model_account(
             payer_info.key.as_ref(),
             args.name.as_bytes(),
         ],
+        TrifleError::DerivedKeyInvalid,
     )?;
 
     let escrow_constraint_model_seeds = &[

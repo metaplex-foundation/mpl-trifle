@@ -1,9 +1,8 @@
 use borsh::{BorshDeserialize, BorshSerialize};
-use mpl_token_metadata::{
-    state::{EscrowAuthority, Metadata, TokenMetadataAccount, ESCROW_POSTFIX, PREFIX},
-    utils::{assert_derivation, assert_owned_by},
+use mpl_token_metadata::state::{
+    EscrowAuthority, Metadata, TokenMetadataAccount, ESCROW_POSTFIX, PREFIX,
 };
-use mpl_utils::assert_signer;
+use mpl_utils::{assert_derivation, assert_owned_by, assert_signer};
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
@@ -57,7 +56,11 @@ pub fn transfer_out(
         return Err(solana_program::program_error::ProgramError::IncorrectProgramId);
     }
 
-    assert_owned_by(attribute_metadata_info, &mpl_token_metadata::id())?;
+    assert_owned_by(
+        attribute_metadata_info,
+        &mpl_token_metadata::id(),
+        TrifleError::IncorrectOwner,
+    )?;
     let _attribute_metadata: Metadata = Metadata::from_account_info(attribute_metadata_info)?;
 
     let mut escrow_seeds = vec![
@@ -72,7 +75,12 @@ pub fn transfer_out(
     }
 
     escrow_seeds.push(ESCROW_POSTFIX.as_bytes());
-    assert_derivation(token_metadata_program_info.key, escrow_info, &escrow_seeds)?;
+    assert_derivation(
+        token_metadata_program_info.key,
+        escrow_info,
+        &escrow_seeds,
+        TrifleError::DerivedKeyInvalid,
+    )?;
 
     let trifle_seeds = &[
         TRIFLE_SEED.as_bytes(),
@@ -80,7 +88,12 @@ pub fn transfer_out(
         trifle_authority_info.key.as_ref(),
     ];
 
-    let trifle_bump_seed = assert_derivation(program_id, trifle_info, trifle_seeds)?;
+    let trifle_bump_seed = assert_derivation(
+        program_id,
+        trifle_info,
+        trifle_seeds,
+        TrifleError::IncorrectOwner,
+    )?;
 
     // Derive the seeds for PDA signing.
     let trifle_signer_seeds = &[

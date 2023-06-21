@@ -1,6 +1,5 @@
 use borsh::BorshSerialize;
-use mpl_token_metadata::utils::assert_owned_by;
-use mpl_utils::assert_signer;
+use mpl_utils::{assert_owned_by, assert_signer};
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
@@ -31,7 +30,11 @@ pub fn remove_constraint_from_escrow_constraint_model(
 
     assert_signer(payer_info)?;
     assert_signer(update_authority_info)?;
-    assert_owned_by(escrow_constraint_model_info, program_id)?;
+    assert_owned_by(
+        escrow_constraint_model_info,
+        program_id,
+        TrifleError::IncorrectOwner,
+    )?;
     // assert update authority matches ecm update authority;
     let mut escrow_constraint_model =
         EscrowConstraintModel::from_account_info(escrow_constraint_model_info)?;

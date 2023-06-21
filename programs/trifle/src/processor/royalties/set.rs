@@ -1,5 +1,5 @@
 use borsh::{BorshDeserialize, BorshSerialize};
-use mpl_token_metadata::utils::assert_derivation;
+use mpl_utils::assert_derivation;
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
@@ -37,6 +37,7 @@ pub fn set_royalties(
             payer_info.key.as_ref(),
             args.name.as_bytes(),
         ],
+        TrifleError::DerivedKeyInvalid,
     )?;
 
     let _constraint_model_seeds = &[

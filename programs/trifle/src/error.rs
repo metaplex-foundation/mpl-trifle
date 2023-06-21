@@ -91,6 +91,18 @@ pub enum TrifleError {
     /// 20 - Failed to deserialize the first creator
     #[error("Failed to deserialize the first creator")]
     InvalidFirstCreator,
+
+    /// 21 - Incorrect account owner
+    #[error("Incorrect account owner")]
+    IncorrectOwner,
+
+    /// 22 Derived key invalid
+    #[error("Derived key invalid")]
+    DerivedKeyInvalid,
+
+    /// 23 - Public key does not match expected value
+    #[error("Public key does not match expected value")]
+    KeyMismatch,
 }
 
 impl From<TrifleError> for ProgramError {
