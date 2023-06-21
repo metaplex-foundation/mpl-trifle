@@ -1,7 +1,7 @@
 use crate::*;
 use mpl_token_metadata::{
     id, instruction,
-    state::{Collection, CollectionDetails, Creator, Data, DataV2, Uses, PREFIX},
+    state::{Collection, CollectionDetails, Creator, DataV2, Uses, PREFIX},
 };
 use solana_program::borsh::try_from_slice_unchecked;
 
@@ -79,7 +79,7 @@ impl Metadata {
 
         #[allow(deprecated)]
         let tx = Transaction::new_signed_with_payer(
-            &[instruction::create_metadata_accounts(
+            &[instruction::create_metadata_accounts_v3(
                 id(),
                 self.pubkey,
                 self.mint.pubkey(),
@@ -93,6 +93,9 @@ impl Metadata {
                 seller_fee_basis_points,
                 false,
                 is_mutable,
+                None,
+                None,
+                None,
             )],
             Some(&context.payer.pubkey()),
             &[&context.payer],
@@ -142,7 +145,7 @@ impl Metadata {
 
         #[allow(deprecated)]
         let tx = Transaction::new_signed_with_payer(
-            &[instruction::create_metadata_accounts_v2(
+            &[instruction::create_metadata_accounts_v3(
                 id(),
                 self.pubkey,
                 self.mint.pubkey(),
@@ -158,6 +161,7 @@ impl Metadata {
                 is_mutable,
                 collection,
                 uses,
+                None,
             )],
             Some(&context.payer.pubkey()),
             &[&context.payer],
@@ -207,7 +211,7 @@ impl Metadata {
 
         #[allow(deprecated)]
         let tx = Transaction::new_signed_with_payer(
-            &[instruction::create_metadata_accounts_v2(
+            &[instruction::create_metadata_accounts_v3(
                 id(),
                 self.pubkey,
                 self.mint.pubkey(),
@@ -223,6 +227,7 @@ impl Metadata {
                 is_mutable,
                 collection,
                 uses,
+                None,
             )],
             Some(&context.payer.pubkey()),
             &[&context.payer],
@@ -511,18 +516,21 @@ impl Metadata {
     ) -> Result<(), BanksClientError> {
         #[allow(deprecated)]
         let tx = Transaction::new_signed_with_payer(
-            &[instruction::update_metadata_accounts(
+            &[instruction::update_metadata_accounts_v2(
                 id(),
                 self.pubkey,
                 context.payer.pubkey(),
                 None,
-                Some(Data {
+                Some(DataV2 {
                     name,
                     symbol,
                     uri,
                     creators,
                     seller_fee_basis_points,
+                    collection: None,
+                    uses: None,
                 }),
+                None,
                 None,
             )],
             Some(&context.payer.pubkey()),

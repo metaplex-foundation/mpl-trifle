@@ -80,9 +80,11 @@ impl MasterEditionV2 {
                 AccountMeta::new_readonly(solana_program::system_program::id(), false),
                 AccountMeta::new_readonly(sysvar::rent::id(), false),
             ],
-            data: MetadataInstruction::CreateMasterEdition(CreateMasterEditionArgs { max_supply })
-                .try_to_vec()
-                .unwrap(),
+            data: MetadataInstruction::CreateMasterEditionV3(CreateMasterEditionArgs {
+                max_supply,
+            })
+            .try_to_vec()
+            .unwrap(),
         };
 
         let tx = Transaction::new_signed_with_payer(
@@ -102,7 +104,7 @@ impl MasterEditionV2 {
     ) -> Result<(), BanksClientError> {
         #[allow(deprecated)]
         let tx = Transaction::new_signed_with_payer(
-            &[instruction::create_master_edition(
+            &[instruction::create_master_edition_v3(
                 id(),
                 self.pubkey,
                 self.mint_pubkey,
