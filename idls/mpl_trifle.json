@@ -1,5 +1,5 @@
 {
-  "version": "0.5.0",
+  "version": "0.5.3",
   "name": "mpl_trifle",
   "instructions": [
     {
@@ -1263,6 +1263,21 @@
       "code": 20,
       "name": "InvalidFirstCreator",
       "msg": "Failed to deserialize the first creator"
+    },
+    {
+      "code": 21,
+      "name": "IncorrectOwner",
+      "msg": "Incorrect account owner"
+    },
+    {
+      "code": 22,
+      "name": "DerivedKeyInvalid",
+      "msg": "Derived key invalid"
+    },
+    {
+      "code": 23,
+      "name": "KeyMismatch",
+      "msg": "Public key does not match expected value"
     }
   ],
   "metadata": {

@@ -291,6 +291,45 @@ export class InvalidFirstCreatorError extends ProgramError {
 codeToErrorMap.set(0x14, InvalidFirstCreatorError);
 nameToErrorMap.set('InvalidFirstCreator', InvalidFirstCreatorError);
 
+/** IncorrectOwner: 'Incorrect account owner' */
+export class IncorrectOwnerError extends ProgramError {
+  readonly name: string = 'IncorrectOwner';
+
+  readonly code: number = 0x15; // 21
+
+  constructor(program: Program, cause?: Error) {
+    super('Incorrect account owner', program, cause);
+  }
+}
+codeToErrorMap.set(0x15, IncorrectOwnerError);
+nameToErrorMap.set('IncorrectOwner', IncorrectOwnerError);
+
+/** DerivedKeyInvalid: 'Derived key invalid' */
+export class DerivedKeyInvalidError extends ProgramError {
+  readonly name: string = 'DerivedKeyInvalid';
+
+  readonly code: number = 0x16; // 22
+
+  constructor(program: Program, cause?: Error) {
+    super('Derived key invalid', program, cause);
+  }
+}
+codeToErrorMap.set(0x16, DerivedKeyInvalidError);
+nameToErrorMap.set('DerivedKeyInvalid', DerivedKeyInvalidError);
+
+/** KeyMismatch: 'Public key does not match expected value' */
+export class KeyMismatchError extends ProgramError {
+  readonly name: string = 'KeyMismatch';
+
+  readonly code: number = 0x17; // 23
+
+  constructor(program: Program, cause?: Error) {
+    super('Public key does not match expected value', program, cause);
+  }
+}
+codeToErrorMap.set(0x17, KeyMismatchError);
+nameToErrorMap.set('KeyMismatch', KeyMismatchError);
+
 /**
  * Attempts to resolve a custom program error from the provided error code.
  * @category Errors
